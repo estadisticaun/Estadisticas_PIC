@@ -1,0 +1,120 @@
+---
+title: "Estadísticas de la UNAL"
+author: "<br>Rectoría<br>Vicerrectoría Académica"
+format:
+  onyxia-revealjs:
+    code-fold: true
+    output-file: index.html
+    chalkboard: true
+    slide-number: true
+    preview-links: auto
+    #logo: "Imagenes/logoUNAL.jpg"
+editor: visual
+---
+
+```{r}
+library(UnalData)
+```
+
+## QR de la presentación
+
+<br>
+
+![](Imagenes/QRPresentacion.png){fig-align="center" height="480"}
+
+## ¿Objetivo de la Presentación? {.center}
+
+<br>
+
+El Sistema de Estadísticas de la UNAL está conformado por los instrumentos y las herramientas orientadas a la gestión y disposición de las cifras estadísticas, así como a la disposición, uso y extracción del valor contenido en los datos institucionales.
+
+
+## Aspirantes a Pregrado {.center}
+
+## Cifras Aspirantes a Pregrado {.smaller}
+
+::: panel-tabset
+### Serie 1 - highcharter
+
+```{r}
+#| echo: TRUE
+
+library(UnalR)
+
+Plot.Series(
+  datos     = ejConsolidadoGrad,
+  categoria = "SEXO",
+  invertir  = TRUE,
+  colores   = c("#8CC63F", "#0071BC"),
+  titulo    = "Evolución del Número de Graduados por Sede",
+  labelY    = "N\u00famero de Graduados",
+  libreria  = "highcharter")
+
+```
+
+### Serie
+
+```{r}
+#| echo: TRUE
+
+
+```
+
+
+### Sexo
+
+```{r}
+#| echo: TRUE
+
+
+```
+
+
+### Estrato
+
+```{r}
+#| echo: TRUE
+
+
+```
+:::
+
+
+## Admitidos a Pregrado {.center}
+
+## Matriculados Primera Vez en Pregrado {.center}
+
+## Matriculados en Pregrado {.center}
+
+## Graduados en Pregrado {.center}
+
+
+## Información de Contacto {.smaller .center}
+
+<br> <br>
+
+[Oficina Nacional de Estadística - UNAL](https://estadisticas.unal.edu.co/home/)
+
+[Dirección Nacional de Planeación y Estadística](https://planeacion.unal.edu.co/home/)
+
+Mail: estadistica_nal\@unal.edu.co
+
+Telefóno: (+57 1) 316 5000 ext: 18519
+
+Ubicación: Carrera 45 \# 26-58, oficina 506
+
+Edif. Uriel Gutiérrez
+
+Bogotá D.C., Colombia
+
+## Opciones Navegación Presentación
+
+-   Última diapositiva, dar clic en Shift + cursor derecho.
+-   Primera diapositiva, dar clic en Shift + cursor izquierdo.
+-   Activar y desactivar lienzo de notas, utilice la tecla C.
+-   Activar y desactivar pizarra, utilice la tecla B.
+-   Borrar notas, utilice la tecla DEL o Supr.
+-   Colores hacia adelante del pincel, utilice la tecla X.
+-   Colores hacia atrás del pincel, utilice la tecla Y.
+
+Más información en la sección de [Opciones de Navegación](https://quarto.org/docs/presentations/revealjs/presenting.html#navigation-options){target="_blank"} del manual de Quarto.
