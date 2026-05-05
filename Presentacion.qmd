@@ -3,7 +3,6 @@ title: "Estadísticas de la UNAL"
 author: "<br>Rectoría<br>Vicerrectoría Académica"
 format:
   onyxia-revealjs:
-    code-fold: true
     output-file: index.html
     chalkboard: true
     slide-number: true
@@ -13,7 +12,28 @@ editor: visual
 ---
 
 ```{r}
+
+# Librerías
+
+library(tidyverse)
 library(UnalData)
+library(UnalR)
+
+# Funcón color
+
+color <- function(n_colores){
+  salida <- colorRampPalette(c("#6495ED", "#8cc63f", "#FFD700", "#f15a24", "#DA70D6"))(n_colores)
+  return(salida)
+}
+
+# Bases de datos
+
+# Aspirantes a Pregrado
+Aspirantes <- UnalData::Aspirantes %>% mutate(TOTAL = "Total")
+AspirantesPre <- Aspirantes %>% filter(TIPO_NIVEL == "Pregrado", !is.na(TIPO_INS))
+
+
+
 ```
 
 ## QR de la presentación
@@ -31,31 +51,50 @@ El Sistema de Estadísticas de la UNAL está conformado por los instrumentos y l
 
 ## Aspirantes a Pregrado {.center}
 
-## Cifras Aspirantes a Pregrado {.smaller}
+## Tendencias Aspirantes a Pregrado {.smaller}
 
 ::: panel-tabset
-### Serie 1 - highcharter
-
-```{r}
-#| echo: TRUE
-
-library(UnalR)
-
-Plot.Series(
-  datos     = ejConsolidadoGrad,
-  categoria = "SEXO",
-  invertir  = TRUE,
-  colores   = c("#8CC63F", "#0071BC"),
-  titulo    = "Evolución del Número de Graduados por Sede",
-  labelY    = "N\u00famero de Graduados",
-  libreria  = "highcharter")
-
-```
 
 ### Serie
 
 ```{r}
-#| echo: TRUE
+#| echo: FALSE
+
+Agregar(TOTAL ~ YEAR + SEMESTRE, 
+                    frecuencia = list(c(2018:2026), c(1:2)),
+                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    datos = AspirantesPre,
+                    textNA = "Sin información") %>% filter(Clase == "Total") %>%  
+              Plot.Series(categoria = "TOTAL", 
+               colores = c("#8cc63f"), # verde, Total 
+               titulo = "Evolución histórica total de aspirantes a pregrado, periodo 2021-2026", 
+               labelY = "Número de aspirantes",
+               ylim = c(0,NaN),
+               libreria = c("highcharter"), 
+               estilo = list(hc.Tema = 5, hc.Slider = FALSE)) 
+
+
+```
+
+
+
+### Sedes
+
+```{r}
+#| echo: FALSE
+
+Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE, 
+                  frecuencia = list(c(2018:2026), c(1:2)),
+                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    datos = AspirantesPre,
+                    textNA = "Sin información") %>% 
+           Plot.Series(categoria = "INS_SEDE_NOMBRE", 
+              titulo = "Evolución total de aspirantes a pregrado por sedes de inscripción, periodo 2021-2026",
+              labelY = "Número de aspirantes",
+              colores = color(length(unique(AspirantesPre$INS_SEDE_NOMBRE))),
+              ylim = c(0,NaN),
+              libreria = c("highcharter"), 
+              estilo = list(hc.Tema = 5, hc.Slider = FALSE, hc.Credits = "Fuente"))
 
 
 ```
@@ -64,7 +103,23 @@ Plot.Series(
 ### Sexo
 
 ```{r}
-#| echo: TRUE
+#| echo: FALSE
+
+Agregar(SEXO ~ YEAR + SEMESTRE, 
+                  frecuencia = list(c(2018:2026), c(1:2)),
+                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    datos = AspirantesPre,
+                    textNA = "Sin información") %>% 
+           Plot.Series(categoria = "SEXO", 
+              titulo = "Evolución % total de aspirantes a pregrado por género, periodo 2021-2026",
+              labelY = "Número de aspirantes",
+              colores = color(length(unique(AspirantesPre$SEXO))),
+              freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"), 
+              estilo = list(hc.Tema = 5, hc.Slider = FALSE, hc.Credits = "Fuente"))
+
+
 
 
 ```
@@ -73,8 +128,21 @@ Plot.Series(
 ### Estrato
 
 ```{r}
-#| echo: TRUE
+#| echo: FALSE
 
+Agregar(ESTRATO ~ YEAR + SEMESTRE, 
+                  frecuencia = list(c(2018:2026), c(1:2)),
+                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    datos = AspirantesPre,
+                    textNA = "Sin información") %>% 
+           Plot.Series(categoria = "ESTRATO", 
+              titulo = "Evolución % total de aspirantes a pregrado por estrato, periodo 2021-2026",
+              labelY = "Número de aspirantes",
+              colores = color(length(unique(AspirantesPre$ESTRATO))),
+              freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"), 
+              estilo = list(hc.Tema = 5, hc.Slider = FALSE, hc.Credits = "Fuente: Estadísticas Oficiales - DNPE"))
 
 ```
 :::
