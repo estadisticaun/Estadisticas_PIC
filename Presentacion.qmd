@@ -33,12 +33,22 @@ color <- function(n_colores){
 # Aspirantes a Pregrado
 Aspirantes <- UnalData::Aspirantes %>% mutate(TOTAL = "Total")
 AspirantesPre <- Aspirantes %>% filter(TIPO_NIVEL == "Pregrado", !is.na(TIPO_INS))
+
 # Admitidos a Pregrado
 AdmitidosPre <- AspirantesPre %>% filter(ADMITIDO == "Sí")
+
 # Matriculados Primera Vez
-MatriculadosPV <- UnalData::Matriculados %>% filter(MAT_PVEZ == "Sí") %>%
+
+source("scripts/Matricula 20261.R")
+
+MatriculadosPV <- UnalData::Matriculados %>% 
+  bind_rows(Matricula_20261) %>% 
+  filter(MAT_PVEZ == "Sí") %>%
   mutate(TOTAL = "Total")
+
 MatriculadosPVPre <- MatriculadosPV %>% filter(TIPO_NIVEL == "Pregrado")
+
+
 # Graduados en Pregrado
 Graduados <- UnalData::Graduados %>% mutate(TOTAL = "Total")
 GraduadosPre <- Graduados %>% filter(TIPO_NIVEL == "Pregrado")
@@ -703,12 +713,12 @@ Agregar(PEAMA ~ YEAR + SEMESTRE,
 #| message: false
 #| warning: false
 
-MatriculadosPVPre %>% filter(YEAR == 2025, SEMESTRE == 2) %>%
+MatriculadosPVPre %>% filter(YEAR == 2026, SEMESTRE == 1) %>%
   Plot.Mapa(depto         = COD_DEP_PROC,
             mpio          = COD_CIU_PROC,
             estadistico   = "Conteo",
             tipo          = "DeptoMpio",
-            titulo        = "Admitidos 2026-1",
+            titulo        = "Matriculados 2026-1",
             centroideMapa = "CUNDINAMARCA",
             zoomMapa      = 6,
             cortes        = list(Deptos = c(0, 10, 100, 300, Inf),
