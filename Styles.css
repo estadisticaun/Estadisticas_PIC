@@ -1,3 +1,7 @@
 h6 {
   color: green;
 }
+
+.panel-tabset .tab-content {
+  font-size: 0.2em;
+}
