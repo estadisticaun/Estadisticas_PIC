@@ -1,6 +1,6 @@
 ---
-title: "Estadísticas de la UNAL"
-author: "<br>Rectoría<br>Vicerrectoría Académica"
+title: "Estadísticas de Pregrado"
+author: "<br>Rectoría<br>Vicerrectoría Académica<br>Universidad Nacional de Colombia<br>Mayo de 2025"
 format:
   onyxia-revealjs:
     output-file: index.html
@@ -37,21 +37,31 @@ AspirantesPre <- Aspirantes %>% filter(TIPO_NIVEL == "Pregrado", !is.na(TIPO_INS
 # Admitidos a Pregrado
 AdmitidosPre <- AspirantesPre %>% filter(ADMITIDO == "Sí")
 
-# Matriculados Primera Vez
+# Admitidos Pregrado 20261
+AdmitidosPre261 <- AdmitidosPre %>% filter(YEAR == 2026, SEMESTRE == 1)
+
+# Matriculados en Pregrado
 
 source("scripts/Matricula 20261.R")
 
-MatriculadosPV <- UnalData::Matriculados %>% 
-  bind_rows(Matricula_20261) %>% 
-  filter(MAT_PVEZ == "Sí") %>%
+Matriculados <- UnalData::Matriculados %>%
+  bind_rows(Matricula_20261) %>%
   mutate(TOTAL = "Total")
 
-MatriculadosPVPre <- MatriculadosPV %>% filter(TIPO_NIVEL == "Pregrado")
+MatriculadosPre <- Matriculados %>% filter(TIPO_NIVEL == "Pregrado")
+MatriculadosPre261 <- MatriculadosPre %>% filter(YEAR == 2026, SEMESTRE == 1)
+
+# Matriculados Primera Vez en Pregrado
+
+MatriculadosPVPre <- MatriculadosPre %>%
+  filter(MAT_PVEZ == "Sí")
+MatriculadosPVPre261 <- MatriculadosPVPre %>% filter(YEAR == 2026, SEMESTRE == 1)
 
 
 # Graduados en Pregrado
 Graduados <- UnalData::Graduados %>% mutate(TOTAL = "Total")
 GraduadosPre <- Graduados %>% filter(TIPO_NIVEL == "Pregrado")
+GraduadosPre252 <- GraduadosPre %>% filter(YEAR == 2025, SEMESTRE == 2)
 
 ```
 
@@ -79,18 +89,18 @@ Presentar las tendencias estadísticas de pregrado (periodos 2018-2026) en la UN
 ```{r}
 #| echo: FALSE
 
-Agregar(TOTAL ~ YEAR + SEMESTRE, 
+Agregar(TOTAL ~ YEAR + SEMESTRE,
                     frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = AspirantesPre,
-                    textNA = "Sin información") %>% filter(Clase == "Total") %>%  
-              Plot.Series(categoria = "TOTAL", 
-               colores = c("#8cc63f"), # verde, Total 
-               titulo = "Evolución histórica total de aspirantes a pregrado, periodo 2021-2026", 
+                    textNA = "Sin información") %>% filter(Clase == "Total") %>%
+              Plot.Series(categoria = "TOTAL",
+               colores = c("#8cc63f"), # verde, Total
+               titulo = "Evolución histórica total de aspirantes a pregrado, periodo 2018-2026",
                labelY = "Número de aspirantes<br>",
                ylim = c(0,NaN),
-               libreria = c("highcharter"), 
-               estilo = list(hc.Tema = 5)) 
+               libreria = c("highcharter"),
+               estilo = list(hc.Tema = 5))
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
@@ -101,17 +111,17 @@ Agregar(TOTAL ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE, 
+Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = AspirantesPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "INS_SEDE_NOMBRE", 
-              titulo = "Evolución total de aspirantes a pregrado por sedes de inscripción, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "INS_SEDE_NOMBRE",
+              titulo = "Evolución total de aspirantes a pregrado por sedes de inscripción, periodo 2018-2026",
               labelY = "Número de aspirantes<br>",
               colores = color(length(unique(AspirantesPre$INS_SEDE_NOMBRE))),
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 
@@ -123,18 +133,18 @@ Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(SEXO ~ YEAR + SEMESTRE, 
+Agregar(SEXO ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = AspirantesPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "SEXO", 
-              titulo = "Evolución % total de aspirantes a pregrado por género, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "SEXO",
+              titulo = "Evolución % total de aspirantes a pregrado por género, periodo 2018-2026",
               labelY = "Número de aspirantes",
               colores = color(length(unique(AspirantesPre$SEXO))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -145,18 +155,18 @@ Agregar(SEXO ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(ESTRATO ~ YEAR + SEMESTRE, 
+Agregar(ESTRATO ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = AspirantesPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "ESTRATO", 
-              titulo = "Evolución % total de aspirantes a pregrado por estrato, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "ESTRATO",
+              titulo = "Evolución % total de aspirantes a pregrado por estrato, periodo 2018-2026",
               labelY = "Número de aspirantes",
               colores = color(length(unique(AspirantesPre$ESTRATO))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -168,18 +178,18 @@ Agregar(ESTRATO ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(MOD_INS ~ YEAR + SEMESTRE, 
+Agregar(MOD_INS ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = AspirantesPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "MOD_INS", 
-              titulo = "Evolución % total de aspirantes a pregrado por modalidad de inscripción, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "MOD_INS",
+              titulo = "Evolución % total de aspirantes a pregrado por modalidad de inscripción, periodo 2018-2026",
               labelY = "Número de aspirantes",
               colores = color(length(unique(AspirantesPre$MOD_INS))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -191,18 +201,18 @@ Agregar(MOD_INS ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(TIPO_INS ~ YEAR + SEMESTRE, 
+Agregar(TIPO_INS ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = AspirantesPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "TIPO_INS", 
-              titulo = "Evolución % total de aspirantes a pregrado por tipología programa de inscripción, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "TIPO_INS",
+              titulo = "Evolución % total de aspirantes a pregrado por tipología programa de inscripción, periodo 2018-2026",
               labelY = "Número de aspirantes",
               colores = color(length(unique(AspirantesPre$TIPO_INS))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -216,18 +226,18 @@ Agregar(TIPO_INS ~ YEAR + SEMESTRE,
 
 Asp_PAES <- AspirantesPre %>% filter(TIPO_INS == "PAES")
 
-Agregar(PAES ~ YEAR + SEMESTRE, 
+Agregar(PAES ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = Asp_PAES,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "PAES", 
-              titulo = "Evolución % total de aspirantes a pregrado programa PAES, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "PAES",
+              titulo = "Evolución % total de aspirantes a pregrado programa PAES, periodo 2018-2026",
               labelY = "Número de aspirantes",
               colores = color(length(unique(Asp_PAES$PAES))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -241,24 +251,22 @@ Agregar(PAES ~ YEAR + SEMESTRE,
 
 Asp_PEAMA <- AspirantesPre %>% filter(TIPO_INS == "PEAMA")
 
-Agregar(PEAMA ~ YEAR + SEMESTRE, 
+Agregar(PEAMA ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = Asp_PEAMA,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "PEAMA", 
-              titulo = "Evolución % total de aspirantes a pregrado Programa PEAMA, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "PEAMA",
+              titulo = "Evolución % total de aspirantes a pregrado Programa PEAMA, periodo 2018-2026",
               labelY = "Número de aspirantes",
               colores = color(length(unique(Asp_PEAMA$PEAMA))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
-
-
 
 
 ### Origen
@@ -301,18 +309,18 @@ AspirantesPre %>% filter(YEAR == 2026, SEMESTRE == 1) %>%
 ```{r}
 #| echo: FALSE
 
-Agregar(TOTAL ~ YEAR + SEMESTRE, 
+Agregar(TOTAL ~ YEAR + SEMESTRE,
                     frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = AdmitidosPre,
-                    textNA = "Sin información") %>% filter(Clase == "Total") %>%  
-              Plot.Series(categoria = "TOTAL", 
-               colores = c("#8cc63f"), # verde, Total 
-               titulo = "Evolución histórica total de admitidos a pregrado, periodo 2021-2026", 
+                    textNA = "Sin información") %>% filter(Clase == "Total") %>%
+              Plot.Series(categoria = "TOTAL",
+               colores = c("#8cc63f"), # verde, Total
+               titulo = "Evolución histórica total de admitidos a pregrado, periodo 2018-2026",
                labelY = "Número de admitidos<br>",
                ylim = c(0,NaN),
-               libreria = c("highcharter"), 
-               estilo = list(hc.Tema = 5)) 
+               libreria = c("highcharter"),
+               estilo = list(hc.Tema = 5))
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
@@ -323,17 +331,17 @@ Agregar(TOTAL ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE, 
+Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = AdmitidosPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "INS_SEDE_NOMBRE", 
-              titulo = "Evolución total de admitidos a pregrado por sedes de admisión, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "INS_SEDE_NOMBRE",
+              titulo = "Evolución total de admitidos a pregrado por sedes de admisión, periodo 2018-2026",
               labelY = "Número de admitidos<br>",
               colores = color(length(unique(AspirantesPre$INS_SEDE_NOMBRE))),
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 
@@ -345,18 +353,18 @@ Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(SEXO ~ YEAR + SEMESTRE, 
+Agregar(SEXO ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = AdmitidosPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "SEXO", 
-              titulo = "Evolución % total de admitidos a pregrado por género, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "SEXO",
+              titulo = "Evolución % total de admitidos a pregrado por género, periodo 2018-2026",
               labelY = "Número de admitidos",
               colores = color(length(unique(AspirantesPre$SEXO))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -367,18 +375,18 @@ Agregar(SEXO ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(ESTRATO ~ YEAR + SEMESTRE, 
+Agregar(ESTRATO ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = AdmitidosPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "ESTRATO", 
-              titulo = "Evolución % total de admitidos a pregrado por estrato, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "ESTRATO",
+              titulo = "Evolución % total de admitidos a pregrado por estrato, periodo 2018-2026",
               labelY = "Número de admitidos",
               colores = color(length(unique(AspirantesPre$ESTRATO))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -390,18 +398,18 @@ Agregar(ESTRATO ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(MOD_INS ~ YEAR + SEMESTRE, 
+Agregar(MOD_INS ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = AdmitidosPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "MOD_INS", 
-              titulo = "Evolución % total de admitidos a pregrado por modalidad de inscripción, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "MOD_INS",
+              titulo = "Evolución % total de admitidos a pregrado por modalidad de inscripción, periodo 2018-2026",
               labelY = "Número de admitidos",
               colores = color(length(unique(AspirantesPre$MOD_INS))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -413,18 +421,18 @@ Agregar(MOD_INS ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(TIPO_INS ~ YEAR + SEMESTRE, 
+Agregar(TIPO_INS ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = AdmitidosPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "TIPO_INS", 
-              titulo = "Evolución % total de admitidos a pregrado por tipología programa de inscripción, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "TIPO_INS",
+              titulo = "Evolución % total de admitidos a pregrado por tipología programa de inscripción, periodo 2018-2026",
               labelY = "Número de admitidos",
               colores = color(length(unique(AspirantesPre$TIPO_INS))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -438,18 +446,18 @@ Agregar(TIPO_INS ~ YEAR + SEMESTRE,
 
 Asp_PAES <- AdmitidosPre %>% filter(TIPO_INS == "PAES")
 
-Agregar(PAES ~ YEAR + SEMESTRE, 
+Agregar(PAES ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = Asp_PAES,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "PAES", 
-              titulo = "Evolución % total de admitidos a pregrado Programa PAES, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "PAES",
+              titulo = "Evolución % total de admitidos a pregrado Programa PAES, periodo 2018-2026",
               labelY = "Número de admitidos",
               colores = color(length(unique(Asp_PAES$PAES))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -463,25 +471,22 @@ Agregar(PAES ~ YEAR + SEMESTRE,
 
 Asp_PEAMA <- AdmitidosPre %>% filter(TIPO_INS == "PEAMA")
 
-Agregar(PEAMA ~ YEAR + SEMESTRE, 
+Agregar(PEAMA ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = Asp_PEAMA,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "PEAMA", 
-              titulo = "Evolución % total de admitidos Programa PEAMA, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "PEAMA",
+              titulo = "Evolución % total de admitidos Programa PEAMA, periodo 2018-2026",
               labelY = "Número de admitidos",
               colores = color(length(unique(Asp_PEAMA$PEAMA))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
-
-
-
 
 ### Origen
 
@@ -511,6 +516,134 @@ AdmitidosPre %>% filter(YEAR == 2026, SEMESTRE == 1) %>%
 :::
 
 
+## Admitidos a Pregrado por Programas {.smaller}
+
+::: panel-tabset
+
+### > Bogotá
+
+```{r}
+#| echo: FALSE
+
+AdmitidosPre261 %>% 
+  filter(ADM_SEDE_NOMBRE == "Bogotá") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  slice_max(Total, n = 15) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#a8ddb5", 15),
+    titulo = "Top 15 programas de pregrado con mayor cantidad de admitidos en la Sede Bogotá, Periodo 2026-1",
+    labelY = "Total admitidos",
+    labelX    = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+
+### < Bogotá
+
+```{r}
+#| echo: FALSE
+
+AdmitidosPre261 %>% 
+  filter(ADM_SEDE_NOMBRE == "Bogotá") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  slice_min(Total, n = 15) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#fdbb84", 16),
+    titulo = "Top 15 programas de pregrado con menor cantidad de admitidos en la Sede Bogotá, Periodo 2026-1",
+    labelY = "Total admitidos",
+    labelX = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+
+### Medellín
+
+```{r}
+#| echo: FALSE
+
+AdmitidosPre261 %>% 
+  filter(ADM_SEDE_NOMBRE == "Medellín") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 28),
+    titulo = "Total de admitidos a la Sede Medellín por programas académicos, Periodo 2026-1",
+    labelY = "Total admitidos",
+    labelX = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+
+### Manizales
+
+```{r}
+#| echo: FALSE
+
+AdmitidosPre261 %>% 
+  filter(ADM_SEDE_NOMBRE == "Manizales") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 15),
+    titulo = "Total de admitidos a la Sede Manizales por programas académicos, Periodo 2026-1",
+    labelY = "Total admitidos",
+    labelX = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+
+### Palmira
+
+```{r}
+#| echo: FALSE
+
+AdmitidosPre261 %>% 
+  filter(ADM_SEDE_NOMBRE == "Palmira") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 7),
+    titulo = "Total de admitidos a la Sede Palmira por programas académicos, Periodo 2026-1",
+    labelY = "Total admitidos",
+    labelX = "Programa Académico")
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+
+###  La Paz
+
+```{r}
+#| echo: FALSE
+
+AdmitidosPre261 %>% 
+  filter(ADM_SEDE_NOMBRE == "De La Paz") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 6),
+    titulo = "Total de admitidos a la Sede La Paz por programas académicos, Periodo 2026-1",
+    labelY = "Total admitidos",
+    labelX = "Programa Académico")
+
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+
+:::
+
 ## Matrícula Primera Vez en Pregrado {.center}
 
 ## Tendencias Matrícula P Vez Pregrado {.smaller}
@@ -522,135 +655,137 @@ AdmitidosPre %>% filter(YEAR == 2026, SEMESTRE == 1) %>%
 ```{r}
 #| echo: FALSE
 
-Agregar(TOTAL ~ YEAR + SEMESTRE, 
+Agregar(TOTAL ~ YEAR + SEMESTRE,
                     frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = MatriculadosPVPre,
-                    textNA = "Sin información") %>% filter(Clase == "Total") %>%  
-              Plot.Series(categoria = "TOTAL", 
-               colores = c("#8cc63f"), # verde, Total 
-               titulo = "Evolución histórica total matriculados primera vez en pregrado, periodo 2021-2026", 
+                    textNA = "Sin información") %>% filter(Clase == "Total") %>%
+              Plot.Series(categoria = "TOTAL",
+               colores = c("#8cc63f"), # verde, Total
+               titulo = "Evolución histórica total matriculados primera vez en pregrado, periodo 2018-2026",
                labelY = "Número de matriculados<br>",
                ylim = c(0,NaN),
-               libreria = c("highcharter"), 
-               estilo = list(hc.Tema = 5)) 
+               libreria = c("highcharter"),
+               estilo = list(hc.Tema = 5))
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
-
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
 
 ### Sedes
 
 ```{r}
 #| echo: FALSE
 
-Agregar(SEDE_NOMBRE_MAT ~ YEAR + SEMESTRE, 
+Agregar(SEDE_NOMBRE_MAT ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = MatriculadosPVPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "SEDE_NOMBRE_MAT", 
-              titulo = "Evolución total de matriculados primera vez en pregrado por sedes, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "SEDE_NOMBRE_MAT",
+              titulo = "Evolución total de matriculados primera vez en pregrado por sedes, periodo 2018-2026",
               labelY = "Número de matriculados<br>",
               colores = color(length(unique(MatriculadosPVPre$SEDE_NOMBRE_MAT))),
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
 
 ### Sexo
 
 ```{r}
 #| echo: FALSE
 
-Agregar(SEXO ~ YEAR + SEMESTRE, 
+Agregar(SEXO ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = MatriculadosPVPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "SEXO", 
-              titulo = "Evolución % total de matriculados primera vez en pregrado por género, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "SEXO",
+              titulo = "Evolución % total de matriculados primera vez en pregrado por género, periodo 2018-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(MatriculadosPVPre$SEXO))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
 
 ### Estrato
 
 ```{r}
 #| echo: FALSE
 
-Agregar(ESTRATO ~ YEAR + SEMESTRE, 
+Agregar(ESTRATO ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = MatriculadosPVPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "ESTRATO", 
-              titulo = "Evolución % total de matriculados primera vez en pregrado por estrato, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "ESTRATO",
+              titulo = "Evolución % total de matriculados primera vez en pregrado por estrato, periodo 2018-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(MatriculadosPVPre$ESTRATO))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
-
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
 
 ### Modalidad
 
 ```{r}
 #| echo: FALSE
 
-Agregar(MOD_ADM ~ YEAR + SEMESTRE, 
+Agregar(MOD_ADM ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = MatriculadosPVPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "MOD_ADM", 
-              titulo = "Evolución % total de matriculados primera vez en pregrado por modalidad de admisión, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "MOD_ADM",
+              titulo = "Evolución % total de matriculados primera vez en pregrado por modalidad de admisión, periodo 2018-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(MatriculadosPVPre$MOD_ADM))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
-
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
 
 ### Tipo
 
 ```{r}
 #| echo: FALSE
 
-Agregar(TIPO_ADM ~ YEAR + SEMESTRE, 
+Agregar(TIPO_ADM ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = MatriculadosPVPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "TIPO_ADM", 
-              titulo = "Evolución % total de matriculados primera vez en pregrado por tipología programas de admisión, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "TIPO_ADM",
+              titulo = "Evolución % total de matriculados primera vez en pregrado por tipología programas de admisión, periodo 2018-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(MatriculadosPVPre$TIPO_ADM))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
-
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
 
 ### PAES
 
@@ -659,23 +794,23 @@ Agregar(TIPO_ADM ~ YEAR + SEMESTRE,
 
 Asp_PAES <- MatriculadosPVPre %>% filter(TIPO_ADM == "PAES")
 
-Agregar(PAES ~ YEAR + SEMESTRE, 
+Agregar(PAES ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = Asp_PAES,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "PAES", 
-              titulo = "Evolución % total de matriculados primera vez en pregrado Programa PAES, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "PAES",
+              titulo = "Evolución % total de matriculados primera vez en pregrado Programa PAES, periodo 2018-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(Asp_PAES$PAES))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
-
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
 
 ### PEAMA
 
@@ -684,25 +819,23 @@ Agregar(PAES ~ YEAR + SEMESTRE,
 
 Asp_PEAMA <- MatriculadosPVPre %>% filter(TIPO_ADM == "PEAMA")
 
-Agregar(PEAMA ~ YEAR + SEMESTRE, 
+Agregar(PEAMA ~ YEAR + SEMESTRE,
                   frecuencia = list(c(2018:2026), c(1:2)),
                     intervalo = list(c(2018, 1), c(2026, 1)),
                     datos = Asp_PEAMA,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "PEAMA", 
-              titulo = "Evolución % total de matriculados primera vez en pregrado Programa PEAMA, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "PEAMA",
+              titulo = "Evolución % total de matriculados primera vez en pregrado Programa PEAMA, periodo 2018-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(Asp_PEAMA$PEAMA))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
-
-
-
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
 
 ### Origen
 
@@ -726,11 +859,507 @@ MatriculadosPVPre %>% filter(YEAR == 2026, SEMESTRE == 1) %>%
             colores       = list(Deptos = c('#edf8e9','#bae4b3','#74c476','#006d2c'),
                                  Mpios  = colorRampPalette(c("#ffffff", "#FFD700", "#DA70D6"))(5)),
             showSedes     = TRUE)
-
 ```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional.</p>
 
 :::
 
+
+
+## Mat. Primera Vez por Programas {.smaller}
+
+::: panel-tabset
+
+### > Bogotá
+
+```{r}
+#| echo: FALSE
+
+MatriculadosPVPre261 %>% 
+  filter(SEDE_NOMBRE_MAT == "Bogotá") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  slice_max(Total, n = 15) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#a8ddb5", 15),
+    titulo = "Top 15 programas de pregrado con mayor cantidad de matriculados por primera vez en la Sede Bogotá, Periodo 2026-1",
+    labelY = "Total matriculados",
+    labelX    = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### < Bogotá
+
+```{r}
+#| echo: FALSE
+
+MatriculadosPVPre261 %>% 
+  filter(SEDE_NOMBRE_MAT == "Bogotá") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  slice_min(Total, n = 15) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#fdbb84", 15),
+    titulo = "Top 15 programas de pregrado con menor cantidad de matriculados por primera vez en la Sede Bogotá, Periodo 2026-1",
+    labelY = "Total matriculados",
+    labelX = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### Medellín
+
+```{r}
+#| echo: FALSE
+
+MatriculadosPVPre261 %>% 
+  filter(SEDE_NOMBRE_MAT == "Medellín") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 28),
+    titulo = "Total de matriculados por primera vez en pregrado en la Sede Medellín por programas académicos, Periodo 2026-1",
+    labelY = "Total matriculados",
+    labelX = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### Manizales
+
+```{r}
+#| echo: FALSE
+
+MatriculadosPVPre261 %>% 
+  filter(SEDE_NOMBRE_MAT == "Manizales") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 15),
+    titulo = "Total matriculados primera vez en pregrado en la Sede Manizales por programas académicos, Periodo 2026-1",
+    labelY = "Total matriculados",
+    labelX = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### Palmira
+
+```{r}
+#| echo: FALSE
+
+MatriculadosPVPre261 %>% 
+  filter(SEDE_NOMBRE_MAT == "Palmira") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 8),
+    titulo = "Total matriculados primera vez en pregrado en la Sede Palmira por programas académicos, Periodo 2026-1",
+    labelY = "Total matriculados",
+    labelX = "Programa Académico")
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+###  La Paz
+
+```{r}
+#| echo: FALSE
+
+MatriculadosPVPre261 %>% 
+  filter(SEDE_NOMBRE_MAT == "La Paz") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 6),
+    titulo = "Total matriculados primera vez en pregrado en la Sede La Paz por programas académicos, Periodo 2026-1",
+    labelY = "Total matriculados",
+    labelX = "Programa Académico")
+
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+:::
+
+
+## Matrícula en Pregrado {.center}
+
+## Tendencias Matrícula en Pregrado {.smaller}
+
+::: panel-tabset
+
+### Serie
+
+```{r}
+#| echo: FALSE
+
+Agregar(TOTAL ~ YEAR + SEMESTRE,
+                    frecuencia = list(c(2018:2026), c(1:2)),
+                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    datos = MatriculadosPre,
+                    textNA = "Sin información") %>% filter(Clase == "Total") %>%
+              Plot.Series(categoria = "TOTAL",
+               colores = c("#8cc63f"), # verde, Total
+               titulo = "Evolución histórica total matriculados en pregrado, periodo 2018-2026",
+               labelY = "Número de matriculados<br>",
+               ylim = c(0,NaN),
+               libreria = c("highcharter"),
+               estilo = list(hc.Tema = 5))
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### Sedes
+
+```{r}
+#| echo: FALSE
+
+Agregar(SEDE_NOMBRE_MAT ~ YEAR + SEMESTRE,
+                  frecuencia = list(c(2018:2026), c(1:2)),
+                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    datos = MatriculadosPre,
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "SEDE_NOMBRE_MAT",
+              titulo = "Evolución total de matriculados en pregrado por sedes, periodo 2018-2026",
+              labelY = "Número de matriculados<br>",
+              colores = color(length(unique(MatriculadosPre$SEDE_NOMBRE_MAT))),
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+<p style="font-size: 12px;"><b>Nota 2:</b> El cambio significativo observado en la Sede Medellín en el periodo 2020-1, se debe a la ausencia de matrícula de estudiantes antiguos en el periodo.</p>
+
+### Sexo
+
+```{r}
+#| echo: FALSE
+
+Agregar(SEXO ~ YEAR + SEMESTRE,
+                  frecuencia = list(c(2018:2025), c(1:2)),
+                    intervalo = list(c(2018, 1), c(2025, 2)),
+                    datos = MatriculadosPre,
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "SEXO",
+              titulo = "Evolución % total de matriculados en pregrado por sexo, periodo 2018-2025",
+              labelY = "Número de matriculados",
+              colores = color(length(unique(MatriculadosPre$SEXO))),
+              freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### Estrato
+
+```{r}
+#| echo: FALSE
+
+Agregar(ESTRATO ~ YEAR + SEMESTRE,
+                  frecuencia = list(c(2018:2026), c(1:2)),
+                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    datos = MatriculadosPre,
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "ESTRATO",
+              titulo = "Evolución % total de matriculados en pregrado por estrato, periodo 2018-2026",
+              labelY = "Número de matriculados",
+              colores = color(length(unique(MatriculadosPre$ESTRATO))),
+              freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### Modalidad
+
+```{r}
+#| echo: FALSE
+
+Agregar(MOD_ADM ~ YEAR + SEMESTRE,
+                  frecuencia = list(c(2018:2026), c(1:2)),
+                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    datos = MatriculadosPre,
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "MOD_ADM",
+              titulo = "Evolución % total de matriculados en pregrado por modalidad de admisión, periodo 2018-2026",
+              labelY = "Número de matriculados",
+              colores = color(length(unique(MatriculadosPre$MOD_ADM))),
+              freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### Tipo
+
+```{r}
+#| echo: FALSE
+
+Agregar(TIPO_ADM ~ YEAR + SEMESTRE,
+                  frecuencia = list(c(2018:2026), c(1:2)),
+                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    datos = MatriculadosPre,
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "TIPO_ADM",
+              titulo = "Evolución % total de matriculados  en pregrado por tipología programas de admisión, periodo 2018-2026",
+              labelY = "Número de matriculados",
+              colores = color(length(unique(MatriculadosPre$TIPO_ADM))),
+              freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### PAES
+
+```{r}
+#| echo: FALSE
+
+Asp_PAES <- MatriculadosPre %>% filter(TIPO_ADM == "PAES")
+
+Agregar(PAES ~ YEAR + SEMESTRE,
+                  frecuencia = list(c(2018:2026), c(1:2)),
+                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    datos = Asp_PAES,
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "PAES",
+              titulo = "Evolución % total de matriculados en pregrado Programa PAES, periodo 2018-2026",
+              labelY = "Número de matriculados",
+              colores = color(length(unique(Asp_PAES$PAES))),
+              freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### PEAMA
+
+```{r}
+#| echo: FALSE
+
+Asp_PEAMA <- MatriculadosPre %>% filter(TIPO_ADM == "PEAMA")
+
+Agregar(PEAMA ~ YEAR + SEMESTRE,
+                  frecuencia = list(c(2018:2026), c(1:2)),
+                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    datos = Asp_PEAMA,
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "PEAMA",
+              titulo = "Evolución % total de matriculados en pregrado Programa PEAMA, periodo 2018-2026",
+              labelY = "Número de matriculados",
+              colores = color(length(unique(Asp_PEAMA$PEAMA))),
+              freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### Origen
+
+<p style="font-size: 16px;">Total matriculados en pregrado por municipios y departamentos de procedencia, periodo 2026-1</p>
+
+```{r}
+#| echo: FALSE
+#| message: false
+#| warning: false
+
+MatriculadosPre %>% filter(YEAR == 2026, SEMESTRE == 1) %>%
+  Plot.Mapa(depto         = COD_DEP_PROC,
+            mpio          = COD_CIU_PROC,
+            estadistico   = "Conteo",
+            tipo          = "DeptoMpio",
+            titulo        = "Matriculados 2026-1",
+            centroideMapa = "CUNDINAMARCA",
+            zoomMapa      = 6,
+            cortes        = list(Deptos = c(0, 10, 100, 300, Inf),
+                                 Mpios  = c(0, 1, 5, 10, 20, Inf)),
+            colores       = list(Deptos = c('#edf8e9','#bae4b3','#74c476','#006d2c'),
+                                 Mpios  = colorRampPalette(c("#ffffff", "#FFD700", "#DA70D6"))(5)),
+            showSedes     = TRUE)
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional.</p>
+
+:::
+
+
+
+## Mat. por Programas en Pregrado {.smaller}
+
+::: panel-tabset
+
+### > Bogotá
+
+```{r}
+#| echo: FALSE
+
+MatriculadosPre261 %>% 
+  filter(SEDE_NOMBRE_MAT == "Bogotá") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  slice_max(Total, n = 15) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#a8ddb5", 15),
+    titulo = "Top 15 programas de pregrado con mayor cantidad de matriculados en la Sede Bogotá, Periodo 2026-1",
+    labelY = "Total matriculados",
+    labelX    = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### < Bogotá
+
+```{r}
+#| echo: FALSE
+
+MatriculadosPre261 %>% 
+  filter(SEDE_NOMBRE_MAT == "Bogotá") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  slice_min(Total, n = 15) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#fdbb84", 15),
+    titulo = "Top 15 programas de pregrado con menor cantidad de matriculados en la Sede Bogotá, Periodo 2026-1",
+    labelY = "Total matriculados",
+    labelX = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### Medellín
+
+```{r}
+#| echo: FALSE
+
+MatriculadosPre261 %>% 
+  filter(SEDE_NOMBRE_MAT == "Medellín") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 30),
+    titulo = "Total matriculados en pregrado en la Sede Medellín por programas académicos, Periodo 2026-1",
+    labelY = "Total matriculados",
+    labelX = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### Manizales
+
+```{r}
+#| echo: FALSE
+
+MatriculadosPre261 %>% 
+  filter(SEDE_NOMBRE_MAT == "Manizales") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 15),
+    titulo = "Total matriculados en pregrado en la Sede Manizales por programas académicos, Periodo 2026-1",
+    labelY = "Total matriculados",
+    labelX = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+### Palmira
+
+```{r}
+#| echo: FALSE
+
+MatriculadosPre261 %>% 
+  filter(SEDE_NOMBRE_MAT == "Palmira") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 8),
+    titulo = "Total matriculados en pregrado en la Sede Palmira por programas académicos, Periodo 2026-1",
+    labelY = "Total matriculados",
+    labelX = "Programa Académico")
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+###  La Paz
+
+```{r}
+#| echo: FALSE
+
+MatriculadosPre261 %>% 
+  filter(SEDE_NOMBRE_MAT == "La Paz") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 6),
+    titulo = "Total matriculados en pregrado en la Sede La Paz por programas académicos, Periodo 2026-1",
+    labelY = "Total matriculados",
+    labelX = "Programa Académico")
+
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
+
+:::
 
 ## Graduados en Pregrado {.center}
 
@@ -743,18 +1372,18 @@ MatriculadosPVPre %>% filter(YEAR == 2026, SEMESTRE == 1) %>%
 ```{r}
 #| echo: FALSE
 
-Agregar(TOTAL ~ YEAR + SEMESTRE, 
+Agregar(TOTAL ~ YEAR + SEMESTRE,
                     frecuencia = list(c(2018:2025), c(1:2)),
                     intervalo = list(c(2018, 1), c(2025, 2)),
                     datos = GraduadosPre,
-                    textNA = "Sin información") %>% filter(Clase == "Total") %>%  
-              Plot.Series(categoria = "TOTAL", 
-               colores = c("#8cc63f"), # verde, Total 
-               titulo = "Evolución histórica total graduados en pregrado, periodo 2021-2025", 
+                    textNA = "Sin información") %>% filter(Clase == "Total") %>%
+              Plot.Series(categoria = "TOTAL",
+               colores = c("#8cc63f"), # verde, Total
+               titulo = "Evolución histórica total graduados en pregrado, periodo 2021-2025",
                labelY = "Número de graduados<br>",
                ylim = c(0,NaN),
-               libreria = c("highcharter"), 
-               estilo = list(hc.Tema = 5)) 
+               libreria = c("highcharter"),
+               estilo = list(hc.Tema = 5))
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
@@ -765,17 +1394,17 @@ Agregar(TOTAL ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(SEDE_NOMBRE_ADM ~ YEAR + SEMESTRE, 
+Agregar(SEDE_NOMBRE_ADM ~ YEAR + SEMESTRE,
                     frecuencia = list(c(2018:2025), c(1:2)),
                     intervalo = list(c(2018, 1), c(2025, 2)),
                     datos = GraduadosPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "SEDE_NOMBRE_ADM", 
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "SEDE_NOMBRE_ADM",
               titulo = "Evolución graduados en pregrado por sedes, periodo 2021-2025",
               labelY = "Número de graduados<br>",
               colores = color(length(unique(GraduadosPre$SEDE_NOMBRE_ADM))),
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 
@@ -787,18 +1416,18 @@ Agregar(SEDE_NOMBRE_ADM ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(SEXO ~ YEAR + SEMESTRE, 
+Agregar(SEXO ~ YEAR + SEMESTRE,
                     frecuencia = list(c(2018:2025), c(1:2)),
                     intervalo = list(c(2018, 1), c(2025, 2)),
                     datos = GraduadosPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "SEXO", 
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "SEXO",
               titulo = "Evolución % total graduados en pregrado por género, periodo 2021-2025",
               labelY = "Número de graduados",
               colores = color(length(unique(GraduadosPre$SEXO))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -809,18 +1438,18 @@ Agregar(SEXO ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(ESTRATO ~ YEAR + SEMESTRE, 
+Agregar(ESTRATO ~ YEAR + SEMESTRE,
                     frecuencia = list(c(2018:2025), c(1:2)),
                     intervalo = list(c(2018, 1), c(2025, 2)),
                     datos = GraduadosPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "ESTRATO", 
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "ESTRATO",
               titulo = "Evolución % total graduados en pregrado por estrato, periodo 2021-2025",
               labelY = "Número de graduados",
               colores = color(length(unique(GraduadosPre$ESTRATO))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -832,18 +1461,18 @@ Agregar(ESTRATO ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(MOD_ADM ~ YEAR + SEMESTRE, 
+Agregar(MOD_ADM ~ YEAR + SEMESTRE,
                     frecuencia = list(c(2018:2025), c(1:2)),
                     intervalo = list(c(2018, 1), c(2025, 2)),
                     datos = GraduadosPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "MOD_ADM", 
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "MOD_ADM",
               titulo = "Evolución % total de graduados en pregrado por modalidad de admisión, periodo 2021-2025",
               labelY = "Número de graduados",
               colores = color(length(unique(GraduadosPre$MOD_ADM))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -855,18 +1484,18 @@ Agregar(MOD_ADM ~ YEAR + SEMESTRE,
 ```{r}
 #| echo: FALSE
 
-Agregar(TIPO_ADM ~ YEAR + SEMESTRE, 
+Agregar(TIPO_ADM ~ YEAR + SEMESTRE,
                     frecuencia = list(c(2018:2025), c(1:2)),
                     intervalo = list(c(2018, 1), c(2025, 2)),
                     datos = GraduadosPre,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "TIPO_ADM", 
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "TIPO_ADM",
               titulo = "Evolución % total de graduados en pregrado por tipología programas de admisión, periodo 2021-2025",
               labelY = "Número de graduados",
               colores = color(length(unique(GraduadosPre$TIPO_ADM))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -880,18 +1509,18 @@ Agregar(TIPO_ADM ~ YEAR + SEMESTRE,
 
 Asp_PAES <- GraduadosPre %>% filter(TIPO_ADM == "PAES")
 
-Agregar(PAES ~ YEAR + SEMESTRE, 
+Agregar(PAES ~ YEAR + SEMESTRE,
                     frecuencia = list(c(2018:2025), c(1:2)),
                     intervalo = list(c(2018, 1), c(2025, 2)),
                     datos = Asp_PAES,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "PAES", 
-              titulo = "Evolución % total de graduados en pregrado Programa PAES, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "PAES",
+              titulo = "Evolución % total de graduados en pregrado Programa PAES, periodo 2018-2026",
               labelY = "Número de graduados",
               colores = color(length(unique(Asp_PAES$PAES))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -905,18 +1534,18 @@ Agregar(PAES ~ YEAR + SEMESTRE,
 
 Asp_PEAMA <- GraduadosPre %>% filter(TIPO_ADM == "PEAMA")
 
-Agregar(PEAMA ~ YEAR + SEMESTRE, 
+Agregar(PEAMA ~ YEAR + SEMESTRE,
                     frecuencia = list(c(2018:2025), c(1:2)),
                     intervalo = list(c(2018, 1), c(2025, 2)),
                     datos = Asp_PEAMA,
-                    textNA = "Sin información") %>% 
-           Plot.Series(categoria = "PEAMA", 
-              titulo = "Evolución % total de graduados en pregrado Programa PEAMA, periodo 2021-2026",
+                    textNA = "Sin información") %>%
+           Plot.Series(categoria = "PEAMA",
+              titulo = "Evolución % total de graduados en pregrado Programa PEAMA, periodo 2018-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(Asp_PEAMA$PEAMA))),
               freqRelativa = TRUE,
               ylim = c(0,NaN),
-              libreria = c("highcharter"), 
+              libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 
 ```
@@ -950,6 +1579,152 @@ GraduadosPre %>% filter(YEAR == 2025, SEMESTRE == 2) %>%
 
 ```
 :::
+
+
+
+## Graduados Programas en Pregrado {.smaller}
+
+::: panel-tabset
+
+### > Bogotá
+
+```{r}
+#| echo: FALSE
+
+GraduadosPre252 %>% 
+  filter(SEDE_NOMBRE_MAT == "Bogotá") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  slice_max(Total, n = 15) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#a8ddb5", 15),
+    titulo = "Top 15 programas de pregrado con mayor cantidad de graduados en la Sede Bogotá, Periodo 2025-2",
+    labelY = "Total graduados",
+    labelX    = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+
+### < Bogotá
+
+```{r}
+#| echo: FALSE
+
+GraduadosPre252 %>% 
+  filter(SEDE_NOMBRE_MAT == "Bogotá") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  slice_min(Total, n = 15) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#fdbb84", 15),
+    titulo = "Top 15 programas de pregrado con menor cantidad de graduados en la Sede Bogotá, Periodo 2025-2",
+    labelY = "Total graduados",
+    labelX = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+
+### Medellín
+
+```{r}
+#| echo: FALSE
+
+GraduadosPre252 %>% 
+  filter(SEDE_NOMBRE_MAT == "Medellín") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 27),
+    titulo = "Total graduados en pregrado en la Sede Medellín por programas académicos, Periodo 2025-2",
+    labelY = "Total graduados",
+    labelX = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+
+### Manizales
+
+```{r}
+#| echo: FALSE
+
+GraduadosPre252 %>% 
+  filter(SEDE_NOMBRE_MAT == "Manizales") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 13),
+    titulo = "Total graduados en pregrado en la Sede Manizales por programas académicos, Periodo 2025-2",
+    labelY = "Total graduados",
+    labelX = "Programa Académico")
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+
+### Palmira
+
+```{r}
+#| echo: FALSE
+
+GraduadosPre252 %>% 
+  filter(SEDE_NOMBRE_MAT == "Palmira") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 7),
+    titulo = "Total graduados en pregrado en la Sede Palmira por programas académicos, Periodo 2025-2",
+    labelY = "Total graduados",
+    labelX = "Programa Académico")
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+
+###  La Paz
+
+```{r}
+#| echo: FALSE
+
+GraduadosPre252 %>% 
+  filter(SEDE_NOMBRE_MAT == "La Paz") %>% 
+  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+  Plot.Barras(
+    valores   = Total,
+    categoria = PROGRAMA_2 ,
+    vertical = FALSE,
+    colores   = rep("#7fcdbb", 6),
+    titulo = "Total graduados en pregrado en la Sede La Paz por programas académicos, Periodo 2025-2",
+    labelY = "Total graduados",
+    labelX = "Programa Académico")
+
+
+```
+<p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+
+:::
+
+
+## Estadísticas de abandono {.center}
+
+## Cifras de abandono Pregrado {.smaller}
+
+![](Imagenes/Desercion.jpg){fig-align="center"}
+<p style="font-size: 12px;">Fuente: Dirección Nacional de Programas de Pregrado</p>
+
+
+## Cifras abandono Pregrado - detalle {.smaller}
+
+![](Imagenes/DesercionDetalle.jpg){fig-align="center"}
+<p style="font-size: 12px;">Fuente: Dirección Nacional de Programas de Pregrado</p>
+<br>
+<h6>Más cifras de abandono en: <a href="https://app.powerbi.com/view?r=eyJrIjoiMzFlYzJkZjktYzNjNy00MTJlLWJhODMtZjZhOGMxOTZhYTFiIiwidCI6ImYwZTQ5M2E5LWJmZmQtNDFiYi05MzRkLTFmOWViZDlhNTE3ZSIsImMiOjR9&pageName=ReportSection4d53ff6ab52952981660" target="_blank">Tablero UNAL Abandono Pregrado</a>
 
 ## Información de Contacto {.smaller .center}
 
