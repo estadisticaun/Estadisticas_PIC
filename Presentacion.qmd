@@ -75,7 +75,7 @@ GraduadosPre252 <- GraduadosPre %>% filter(YEAR == 2025, SEMESTRE == 2)
 
 <br>
 
-Presentar las tendencias estadísticas de pregrado (periodos 2018-2026) en la UNAL a nivel de las poblaciones de aspirantes, admitidos, matriculados por primera vez y  graduados, así como cifras sobre la atracción de programas y las tasas de abandono, con el fin de que las comunidades académicas tengan elementos de juicio para el diseño de estrategias orientadas al aumento de la cobertura, la transformación curricular, el diseño y construcción de nuevos programas y el mejoramiento de las tasas de retención y de  graduación.
+Presentar las tendencias estadísticas de pregrado (periodos 2021-2026) en la UNAL a nivel de las poblaciones de aspirantes, admitidos, matriculados por primera vez y  graduados, así como cifras sobre la atracción de programas y las tasas de abandono, con el fin de que las comunidades académicas tengan elementos de juicio para el diseño de estrategias orientadas al aumento de la cobertura, la transformación curricular, el diseño y construcción de nuevos programas y el mejoramiento de las tasas de retención y de  graduación.
 
 
 ## Aspirantes a Pregrado {.center}
@@ -90,13 +90,13 @@ Presentar las tendencias estadísticas de pregrado (periodos 2018-2026) en la UN
 #| echo: FALSE
 
 Agregar(TOTAL ~ YEAR + SEMESTRE,
-                    frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AspirantesPre,
                     textNA = "Sin información") %>% filter(Clase == "Total") %>%
               Plot.Series(categoria = "TOTAL",
                colores = c("#8cc63f"), # verde, Total
-               titulo = "Evolución histórica total de aspirantes a pregrado, periodo 2018-2026",
+               titulo = "Evolución histórica total de aspirantes a pregrado, periodo 2021-2026",
                labelY = "Número de aspirantes<br>",
                ylim = c(0,NaN),
                libreria = c("highcharter"),
@@ -112,12 +112,12 @@ Agregar(TOTAL ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AspirantesPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "INS_SEDE_NOMBRE",
-              titulo = "Evolución total de aspirantes a pregrado por sedes de inscripción, periodo 2018-2026",
+              titulo = "Evolución total de aspirantes a pregrado por sedes de inscripción, periodo 2021-2026",
               labelY = "Número de aspirantes<br>",
               colores = color(length(unique(AspirantesPre$INS_SEDE_NOMBRE))),
               ylim = c(0,NaN),
@@ -134,15 +134,15 @@ Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(SEXO ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AspirantesPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "SEXO",
-              titulo = "Evolución % total de aspirantes a pregrado por género, periodo 2018-2026",
+              titulo = "Evolución total de aspirantes a pregrado por género, periodo 2021-2026",
               labelY = "Número de aspirantes",
               colores = color(length(unique(AspirantesPre$SEXO))),
-              freqRelativa = TRUE,
+              #freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -156,15 +156,15 @@ Agregar(SEXO ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(ESTRATO ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AspirantesPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "ESTRATO",
-              titulo = "Evolución % total de aspirantes a pregrado por estrato, periodo 2018-2026",
+              titulo = "Evolución total de aspirantes a pregrado por estrato, periodo 2021-2026",
               labelY = "Número de aspirantes",
               colores = color(length(unique(AspirantesPre$ESTRATO))),
-              freqRelativa = TRUE,
+              # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -179,15 +179,15 @@ Agregar(ESTRATO ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(MOD_INS ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AspirantesPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "MOD_INS",
-              titulo = "Evolución % total de aspirantes a pregrado por modalidad de inscripción, periodo 2018-2026",
+              titulo = "Evolución total de aspirantes a pregrado por modalidad de inscripción, periodo 2021-2026",
               labelY = "Número de aspirantes",
               colores = color(length(unique(AspirantesPre$MOD_INS))),
-              freqRelativa = TRUE,
+              # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -202,15 +202,15 @@ Agregar(MOD_INS ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(TIPO_INS ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AspirantesPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "TIPO_INS",
-              titulo = "Evolución % total de aspirantes a pregrado por tipología programa de inscripción, periodo 2018-2026",
+              titulo = "Evolución total de aspirantes a pregrado por tipología programa de inscripción, periodo 2021-2026",
               labelY = "Número de aspirantes",
               colores = color(length(unique(AspirantesPre$TIPO_INS))),
-              freqRelativa = TRUE,
+              # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -227,15 +227,15 @@ Agregar(TIPO_INS ~ YEAR + SEMESTRE,
 Asp_PAES <- AspirantesPre %>% filter(TIPO_INS == "PAES")
 
 Agregar(PAES ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = Asp_PAES,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "PAES",
-              titulo = "Evolución % total de aspirantes a pregrado programa PAES, periodo 2018-2026",
+              titulo = "Evolución total de aspirantes a pregrado programa PAES, periodo 2021-2026",
               labelY = "Número de aspirantes",
               colores = color(length(unique(Asp_PAES$PAES))),
-              freqRelativa = TRUE,
+             #  freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -252,15 +252,15 @@ Agregar(PAES ~ YEAR + SEMESTRE,
 Asp_PEAMA <- AspirantesPre %>% filter(TIPO_INS == "PEAMA")
 
 Agregar(PEAMA ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = Asp_PEAMA,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "PEAMA",
-              titulo = "Evolución % total de aspirantes a pregrado Programa PEAMA, periodo 2018-2026",
+              titulo = "Evolución total de aspirantes a pregrado Programa PEAMA, periodo 2021-2026",
               labelY = "Número de aspirantes",
               colores = color(length(unique(Asp_PEAMA$PEAMA))),
-              freqRelativa = TRUE,
+              # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -310,15 +310,15 @@ AspirantesPre %>% filter(YEAR == 2026, SEMESTRE == 1) %>%
 #| echo: FALSE
 
 Agregar(TOTAL ~ YEAR + SEMESTRE,
-                    frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AdmitidosPre,
                     textNA = "Sin información") %>% filter(Clase == "Total") %>%
               Plot.Series(categoria = "TOTAL",
                colores = c("#8cc63f"), # verde, Total
-               titulo = "Evolución histórica total de admitidos a pregrado, periodo 2018-2026",
+               titulo = "Evolución histórica total de admitidos a pregrado, periodo 2021-2026",
                labelY = "Número de admitidos<br>",
-               ylim = c(0,NaN),
+               ylim = c(5000, 8000),
                libreria = c("highcharter"),
                estilo = list(hc.Tema = 5))
 
@@ -332,12 +332,12 @@ Agregar(TOTAL ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AdmitidosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "INS_SEDE_NOMBRE",
-              titulo = "Evolución total de admitidos a pregrado por sedes de admisión, periodo 2018-2026",
+              titulo = "Evolución total de admitidos a pregrado por sedes de admisión, periodo 2021-2026",
               labelY = "Número de admitidos<br>",
               colores = color(length(unique(AspirantesPre$INS_SEDE_NOMBRE))),
               ylim = c(0,NaN),
@@ -354,15 +354,15 @@ Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(SEXO ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AdmitidosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "SEXO",
-              titulo = "Evolución % total de admitidos a pregrado por género, periodo 2018-2026",
+              titulo = "Evolución total de admitidos a pregrado por género, periodo 2021-2026",
               labelY = "Número de admitidos",
               colores = color(length(unique(AspirantesPre$SEXO))),
-              freqRelativa = TRUE,
+             # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -376,15 +376,15 @@ Agregar(SEXO ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(ESTRATO ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AdmitidosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "ESTRATO",
-              titulo = "Evolución % total de admitidos a pregrado por estrato, periodo 2018-2026",
+              titulo = "Evolución total de admitidos a pregrado por estrato, periodo 2021-2026",
               labelY = "Número de admitidos",
               colores = color(length(unique(AspirantesPre$ESTRATO))),
-              freqRelativa = TRUE,
+              #freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -399,15 +399,15 @@ Agregar(ESTRATO ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(MOD_INS ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AdmitidosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "MOD_INS",
-              titulo = "Evolución % total de admitidos a pregrado por modalidad de inscripción, periodo 2018-2026",
+              titulo = "Evolución total de admitidos a pregrado por modalidad de inscripción, periodo 2021-2026",
               labelY = "Número de admitidos",
               colores = color(length(unique(AspirantesPre$MOD_INS))),
-              freqRelativa = TRUE,
+             # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -422,15 +422,15 @@ Agregar(MOD_INS ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(TIPO_INS ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AdmitidosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "TIPO_INS",
-              titulo = "Evolución % total de admitidos a pregrado por tipología programa de inscripción, periodo 2018-2026",
+              titulo = "Evolución total de admitidos a pregrado por tipología programa de inscripción, periodo 2021-2026",
               labelY = "Número de admitidos",
               colores = color(length(unique(AspirantesPre$TIPO_INS))),
-              freqRelativa = TRUE,
+              #freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -447,15 +447,15 @@ Agregar(TIPO_INS ~ YEAR + SEMESTRE,
 Asp_PAES <- AdmitidosPre %>% filter(TIPO_INS == "PAES")
 
 Agregar(PAES ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = Asp_PAES,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "PAES",
-              titulo = "Evolución % total de admitidos a pregrado Programa PAES, periodo 2018-2026",
+              titulo = "Evolución total de admitidos a pregrado Programa PAES, periodo 2021-2026",
               labelY = "Número de admitidos",
               colores = color(length(unique(Asp_PAES$PAES))),
-              freqRelativa = TRUE,
+             # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -472,15 +472,15 @@ Agregar(PAES ~ YEAR + SEMESTRE,
 Asp_PEAMA <- AdmitidosPre %>% filter(TIPO_INS == "PEAMA")
 
 Agregar(PEAMA ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = Asp_PEAMA,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "PEAMA",
-              titulo = "Evolución % total de admitidos Programa PEAMA, periodo 2018-2026",
+              titulo = "Evolución total de admitidos Programa PEAMA, periodo 2021-2026",
               labelY = "Número de admitidos",
               colores = color(length(unique(Asp_PEAMA$PEAMA))),
-              freqRelativa = TRUE,
+              # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -656,15 +656,15 @@ AdmitidosPre261 %>%
 #| echo: FALSE
 
 Agregar(TOTAL ~ YEAR + SEMESTRE,
-                    frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = MatriculadosPVPre,
                     textNA = "Sin información") %>% filter(Clase == "Total") %>%
               Plot.Series(categoria = "TOTAL",
                colores = c("#8cc63f"), # verde, Total
-               titulo = "Evolución histórica total matriculados primera vez en pregrado, periodo 2018-2026",
+               titulo = "Evolución histórica total matriculados primera vez en pregrado, periodo 2021-2026",
                labelY = "Número de matriculados<br>",
-               ylim = c(0,NaN),
+               ylim = c(4000, 6000),
                libreria = c("highcharter"),
                estilo = list(hc.Tema = 5))
 
@@ -678,12 +678,12 @@ Agregar(TOTAL ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(SEDE_NOMBRE_MAT ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = MatriculadosPVPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "SEDE_NOMBRE_MAT",
-              titulo = "Evolución total de matriculados primera vez en pregrado por sedes, periodo 2018-2026",
+              titulo = "Evolución total de matriculados primera vez en pregrado por sedes, periodo 2021-2026",
               labelY = "Número de matriculados<br>",
               colores = color(length(unique(MatriculadosPVPre$SEDE_NOMBRE_MAT))),
               ylim = c(0,NaN),
@@ -701,15 +701,15 @@ Agregar(SEDE_NOMBRE_MAT ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(SEXO ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = MatriculadosPVPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "SEXO",
-              titulo = "Evolución % total de matriculados primera vez en pregrado por género, periodo 2018-2026",
+              titulo = "Evolución total de matriculados primera vez en pregrado por género, periodo 2021-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(MatriculadosPVPre$SEXO))),
-              freqRelativa = TRUE,
+             # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -724,15 +724,15 @@ Agregar(SEXO ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(ESTRATO ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = MatriculadosPVPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "ESTRATO",
-              titulo = "Evolución % total de matriculados primera vez en pregrado por estrato, periodo 2018-2026",
+              titulo = "Evolución total de matriculados primera vez en pregrado por estrato, periodo 2021-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(MatriculadosPVPre$ESTRATO))),
-              freqRelativa = TRUE,
+              # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -747,15 +747,15 @@ Agregar(ESTRATO ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(MOD_ADM ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = MatriculadosPVPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "MOD_ADM",
-              titulo = "Evolución % total de matriculados primera vez en pregrado por modalidad de admisión, periodo 2018-2026",
+              titulo = "Evolución total de matriculados primera vez en pregrado por modalidad de admisión, periodo 2021-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(MatriculadosPVPre$MOD_ADM))),
-              freqRelativa = TRUE,
+              # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -770,15 +770,15 @@ Agregar(MOD_ADM ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(TIPO_ADM ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = MatriculadosPVPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "TIPO_ADM",
-              titulo = "Evolución % total de matriculados primera vez en pregrado por tipología programas de admisión, periodo 2018-2026",
+              titulo = "Evolución total de matriculados primera vez en pregrado por tipología programas de admisión, periodo 2021-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(MatriculadosPVPre$TIPO_ADM))),
-              freqRelativa = TRUE,
+              # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -795,15 +795,15 @@ Agregar(TIPO_ADM ~ YEAR + SEMESTRE,
 Asp_PAES <- MatriculadosPVPre %>% filter(TIPO_ADM == "PAES")
 
 Agregar(PAES ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = Asp_PAES,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "PAES",
-              titulo = "Evolución % total de matriculados primera vez en pregrado Programa PAES, periodo 2018-2026",
+              titulo = "Evolución total de matriculados primera vez en pregrado Programa PAES, periodo 2021-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(Asp_PAES$PAES))),
-              freqRelativa = TRUE,
+              # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -820,15 +820,15 @@ Agregar(PAES ~ YEAR + SEMESTRE,
 Asp_PEAMA <- MatriculadosPVPre %>% filter(TIPO_ADM == "PEAMA")
 
 Agregar(PEAMA ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = Asp_PEAMA,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "PEAMA",
-              titulo = "Evolución % total de matriculados primera vez en pregrado Programa PEAMA, periodo 2018-2026",
+              titulo = "Evolución total de matriculados primera vez en pregrado Programa PEAMA, periodo 2021-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(Asp_PEAMA$PEAMA))),
-              freqRelativa = TRUE,
+              # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -864,8 +864,6 @@ MatriculadosPVPre %>% filter(YEAR == 2026, SEMESTRE == 1) %>%
 <p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional.</p>
 
 :::
-
-
 
 ## Mat. Primera Vez por Programas {.smaller}
 
@@ -1014,15 +1012,15 @@ MatriculadosPVPre261 %>%
 #| echo: FALSE
 
 Agregar(TOTAL ~ YEAR + SEMESTRE,
-                    frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                    frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = MatriculadosPre,
                     textNA = "Sin información") %>% filter(Clase == "Total") %>%
               Plot.Series(categoria = "TOTAL",
                colores = c("#8cc63f"), # verde, Total
-               titulo = "Evolución histórica total matriculados en pregrado, periodo 2018-2026",
+               titulo = "Evolución histórica total matriculados en pregrado, periodo 2021-2026",
                labelY = "Número de matriculados<br>",
-               ylim = c(0,NaN),
+               ylim = c(47000, 52000),
                libreria = c("highcharter"),
                estilo = list(hc.Tema = 5))
 
@@ -1036,12 +1034,12 @@ Agregar(TOTAL ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(SEDE_NOMBRE_MAT ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = MatriculadosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "SEDE_NOMBRE_MAT",
-              titulo = "Evolución total de matriculados en pregrado por sedes, periodo 2018-2026",
+              titulo = "Evolución total de matriculados en pregrado por sedes, periodo 2021-2026",
               labelY = "Número de matriculados<br>",
               colores = color(length(unique(MatriculadosPre$SEDE_NOMBRE_MAT))),
               ylim = c(0,NaN),
@@ -1060,15 +1058,15 @@ Agregar(SEDE_NOMBRE_MAT ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(SEXO ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2025), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2025, 2)),
+                  frecuencia = list(c(2021:2025), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2025, 2)),
                     datos = MatriculadosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "SEXO",
-              titulo = "Evolución % total de matriculados en pregrado por sexo, periodo 2018-2025",
+              titulo = "Evolución total de matriculados en pregrado por sexo, periodo 2021-2025",
               labelY = "Número de matriculados",
               colores = color(length(unique(MatriculadosPre$SEXO))),
-              freqRelativa = TRUE,
+             # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -1083,15 +1081,15 @@ Agregar(SEXO ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(ESTRATO ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = MatriculadosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "ESTRATO",
-              titulo = "Evolución % total de matriculados en pregrado por estrato, periodo 2018-2026",
+              titulo = "Evolución total de matriculados en pregrado por estrato, periodo 2021-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(MatriculadosPre$ESTRATO))),
-              freqRelativa = TRUE,
+              #freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -1106,15 +1104,15 @@ Agregar(ESTRATO ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(MOD_ADM ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = MatriculadosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "MOD_ADM",
-              titulo = "Evolución % total de matriculados en pregrado por modalidad de admisión, periodo 2018-2026",
+              titulo = "Evolución total de matriculados en pregrado por modalidad de admisión, periodo 2021-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(MatriculadosPre$MOD_ADM))),
-              freqRelativa = TRUE,
+              #freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -1129,15 +1127,15 @@ Agregar(MOD_ADM ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(TIPO_ADM ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = MatriculadosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "TIPO_ADM",
-              titulo = "Evolución % total de matriculados  en pregrado por tipología programas de admisión, periodo 2018-2026",
+              titulo = "Evolución total de matriculados  en pregrado por tipología programas de admisión, periodo 2021-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(MatriculadosPre$TIPO_ADM))),
-              freqRelativa = TRUE,
+              #freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -1154,15 +1152,15 @@ Agregar(TIPO_ADM ~ YEAR + SEMESTRE,
 Asp_PAES <- MatriculadosPre %>% filter(TIPO_ADM == "PAES")
 
 Agregar(PAES ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = Asp_PAES,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "PAES",
-              titulo = "Evolución % total de matriculados en pregrado Programa PAES, periodo 2018-2026",
+              titulo = "Evolución total de matriculados en pregrado Programa PAES, periodo 2021-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(Asp_PAES$PAES))),
-              freqRelativa = TRUE,
+              #freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -1179,15 +1177,15 @@ Agregar(PAES ~ YEAR + SEMESTRE,
 Asp_PEAMA <- MatriculadosPre %>% filter(TIPO_ADM == "PEAMA")
 
 Agregar(PEAMA ~ YEAR + SEMESTRE,
-                  frecuencia = list(c(2018:2026), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2026, 1)),
+                  frecuencia = list(c(2021:2026), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = Asp_PEAMA,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "PEAMA",
-              titulo = "Evolución % total de matriculados en pregrado Programa PEAMA, periodo 2018-2026",
+              titulo = "Evolución total de matriculados en pregrado Programa PEAMA, periodo 2021-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(Asp_PEAMA$PEAMA))),
-              freqRelativa = TRUE,
+             # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -1373,15 +1371,15 @@ MatriculadosPre261 %>%
 #| echo: FALSE
 
 Agregar(TOTAL ~ YEAR + SEMESTRE,
-                    frecuencia = list(c(2018:2025), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2025, 2)),
+                    frecuencia = list(c(2021:2025), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2025, 2)),
                     datos = GraduadosPre,
                     textNA = "Sin información") %>% filter(Clase == "Total") %>%
               Plot.Series(categoria = "TOTAL",
                colores = c("#8cc63f"), # verde, Total
                titulo = "Evolución histórica total graduados en pregrado, periodo 2021-2025",
                labelY = "Número de graduados<br>",
-               ylim = c(0,NaN),
+               ylim = c(2000, 4000),
                libreria = c("highcharter"),
                estilo = list(hc.Tema = 5))
 
@@ -1395,8 +1393,8 @@ Agregar(TOTAL ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(SEDE_NOMBRE_ADM ~ YEAR + SEMESTRE,
-                    frecuencia = list(c(2018:2025), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2025, 2)),
+                    frecuencia = list(c(2021:2025), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2025, 2)),
                     datos = GraduadosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "SEDE_NOMBRE_ADM",
@@ -1417,15 +1415,15 @@ Agregar(SEDE_NOMBRE_ADM ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(SEXO ~ YEAR + SEMESTRE,
-                    frecuencia = list(c(2018:2025), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2025, 2)),
+                    frecuencia = list(c(2021:2025), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2025, 2)),
                     datos = GraduadosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "SEXO",
-              titulo = "Evolución % total graduados en pregrado por género, periodo 2021-2025",
+              titulo = "Evolución total graduados en pregrado por género, periodo 2021-2025",
               labelY = "Número de graduados",
               colores = color(length(unique(GraduadosPre$SEXO))),
-              freqRelativa = TRUE,
+              # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -1439,15 +1437,15 @@ Agregar(SEXO ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(ESTRATO ~ YEAR + SEMESTRE,
-                    frecuencia = list(c(2018:2025), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2025, 2)),
+                    frecuencia = list(c(2021:2025), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2025, 2)),
                     datos = GraduadosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "ESTRATO",
-              titulo = "Evolución % total graduados en pregrado por estrato, periodo 2021-2025",
+              titulo = "Evolución total graduados en pregrado por estrato, periodo 2021-2025",
               labelY = "Número de graduados",
               colores = color(length(unique(GraduadosPre$ESTRATO))),
-              freqRelativa = TRUE,
+              # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -1462,15 +1460,15 @@ Agregar(ESTRATO ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(MOD_ADM ~ YEAR + SEMESTRE,
-                    frecuencia = list(c(2018:2025), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2025, 2)),
+                    frecuencia = list(c(2021:2025), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2025, 2)),
                     datos = GraduadosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "MOD_ADM",
-              titulo = "Evolución % total de graduados en pregrado por modalidad de admisión, periodo 2021-2025",
+              titulo = "Evolución total de graduados en pregrado por modalidad de admisión, periodo 2021-2025",
               labelY = "Número de graduados",
               colores = color(length(unique(GraduadosPre$MOD_ADM))),
-              freqRelativa = TRUE,
+              #freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -1485,15 +1483,15 @@ Agregar(MOD_ADM ~ YEAR + SEMESTRE,
 #| echo: FALSE
 
 Agregar(TIPO_ADM ~ YEAR + SEMESTRE,
-                    frecuencia = list(c(2018:2025), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2025, 2)),
+                    frecuencia = list(c(2021:2025), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2025, 2)),
                     datos = GraduadosPre,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "TIPO_ADM",
-              titulo = "Evolución % total de graduados en pregrado por tipología programas de admisión, periodo 2021-2025",
+              titulo = "Evolución total de graduados en pregrado por tipología programas de admisión, periodo 2021-2025",
               labelY = "Número de graduados",
               colores = color(length(unique(GraduadosPre$TIPO_ADM))),
-              freqRelativa = TRUE,
+             # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -1510,15 +1508,15 @@ Agregar(TIPO_ADM ~ YEAR + SEMESTRE,
 Asp_PAES <- GraduadosPre %>% filter(TIPO_ADM == "PAES")
 
 Agregar(PAES ~ YEAR + SEMESTRE,
-                    frecuencia = list(c(2018:2025), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2025, 2)),
+                    frecuencia = list(c(2021:2025), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2025, 2)),
                     datos = Asp_PAES,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "PAES",
-              titulo = "Evolución % total de graduados en pregrado Programa PAES, periodo 2018-2026",
+              titulo = "Evolución total de graduados en pregrado Programa PAES, periodo 2021-2026",
               labelY = "Número de graduados",
               colores = color(length(unique(Asp_PAES$PAES))),
-              freqRelativa = TRUE,
+             # freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
@@ -1535,15 +1533,15 @@ Agregar(PAES ~ YEAR + SEMESTRE,
 Asp_PEAMA <- GraduadosPre %>% filter(TIPO_ADM == "PEAMA")
 
 Agregar(PEAMA ~ YEAR + SEMESTRE,
-                    frecuencia = list(c(2018:2025), c(1:2)),
-                    intervalo = list(c(2018, 1), c(2025, 2)),
+                    frecuencia = list(c(2021:2025), c(1:2)),
+                    intervalo = list(c(2021, 1), c(2025, 2)),
                     datos = Asp_PEAMA,
                     textNA = "Sin información") %>%
            Plot.Series(categoria = "PEAMA",
-              titulo = "Evolución % total de graduados en pregrado Programa PEAMA, periodo 2018-2026",
+              titulo = "Evolución total de graduados en pregrado Programa PEAMA, periodo 2021-2026",
               labelY = "Número de matriculados",
               colores = color(length(unique(Asp_PEAMA$PEAMA))),
-              freqRelativa = TRUE,
+              #freqRelativa = TRUE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
