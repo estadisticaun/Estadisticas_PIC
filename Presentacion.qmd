@@ -57,11 +57,24 @@ MatriculadosPVPre <- MatriculadosPre %>%
   filter(MAT_PVEZ == "Sí")
 MatriculadosPVPre261 <- MatriculadosPVPre %>% filter(YEAR == 2026, SEMESTRE == 1)
 
-
 # Graduados en Pregrado
 Graduados <- UnalData::Graduados %>% mutate(TOTAL = "Total")
 GraduadosPre <- Graduados %>% filter(TIPO_NIVEL == "Pregrado")
 GraduadosPre252 <- GraduadosPre %>% filter(YEAR == 2025, SEMESTRE == 2)
+
+# Cupos
+
+Cupos_Pre <- read_excel("Datos/Cupos_Pregrado.xlsx", guess_max = 5000)
+
+# Bases de poblaciones
+
+# Serie General: Admitidos - Mat - Cupos - Graduados
+
+Admitidos <- AdmitidosPre %>% filter(YEAR >= 2021) %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
+Mat_Pvez <- MatriculadosPVPre %>% filter(YEAR >= 2021) %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
+Graduados <-  GraduadosPre %>% filter(YEAR >= 2021) %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
+Cupos <- Cupos_Pre %>% filter(YEAR >= 2021) %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
+Poblaciones <- bind_rows(Cupos, Admitidos, Mat_Pvez, Graduados) %>% mutate(Variable = "POBLACION") %>% relocate(Variable, .before = YEAR)
 
 ```
 
@@ -1050,7 +1063,7 @@ Agregar(SEDE_NOMBRE_MAT ~ YEAR + SEMESTRE,
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
 <p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes matriculados en pregrado en el primer semestre del año 2026 es de carácter provisional. Esta, una vez se cumplan los requisitos estadísticos para su oficialización, puede sufrir leves modificaciones.</p>
-<p style="font-size: 12px;"><b>Nota 2:</b> El cambio significativo observado en la Sede Medellín en el periodo 2020-1, se debe a la ausencia de matrícula de estudiantes antiguos en el periodo.</p>
+<!-- <p style="font-size: 12px;"><b>Nota 2:</b> El cambio significativo observado en la Sede Medellín en el periodo 2020-1, se debe a la ausencia de matrícula de estudiantes antiguos en el periodo.</p> -->
 
 ### Sexo
 
@@ -1706,6 +1719,32 @@ GraduadosPre252 %>%
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
 
+:::
+
+## Consolidado: <br> Cupos, admitidos, matriculados primera vez y graduados en pregrado {.center}
+
+
+## Tendencias Generales {.smaller}
+
+::: panel-tabset
+
+### Universidad
+
+```{r}
+#| echo: FALSE
+
+Poblaciones %>% 
+  Plot.Series(categoria = "POBLACION",
+              titulo = "Evolución total cupos, admitidos, matriculados primera vez y graduados en pregrado, periodo 2021-2025",
+              labelY = "Total",
+              colores = color(length(unique(Poblaciones$Clase))),
+              # freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+
+```
+<p style="font-size: 14px;"><b>Cupos:</b> El total de cupos en programas de pregrado de la Universidad se calcula a partir de los valores definidos, por periodo académico, a través de los Consejos de Facultad.</p>
 :::
 
 
