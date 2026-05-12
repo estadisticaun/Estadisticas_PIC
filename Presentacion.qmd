@@ -1965,7 +1965,7 @@ hchart(General_Cupos_MatPvez_Bog, "bar", hcaes(x = Programa, y = Porcentaje), na
   hc_yAxis(
     title = list(text = "Porcentaje"),
     labels = list(format = "{value}%"),
-    max = 120,
+    max = 125,
     plotLines = list(
       list(
         value = 100,      # Valor donde se ubica la línea
@@ -2002,7 +2002,7 @@ hchart(General_Cupos_MatPvez_Med, "bar", hcaes(x = Programa, y = Porcentaje), na
   hc_yAxis(
     title = list(text = "Porcentaje"),
     labels = list(format = "{value}%"),
-    max = 120,
+    max = 125,
     plotLines = list(
       list(
         value = 100,      # Valor donde se ubica la línea
@@ -2041,7 +2041,7 @@ hchart(General_Cupos_MatPvez_Man, "bar", hcaes(x = Programa, y = Porcentaje), na
   hc_yAxis(
     title = list(text = "Porcentaje"),
     labels = list(format = "{value}%"),
-    max = 120,
+    max = 125,
     plotLines = list(
       list(
         value = 100,      # Valor donde se ubica la línea
@@ -2081,7 +2081,7 @@ hchart(General_Cupos_MatPvez_Pal, "bar", hcaes(x = Programa, y = Porcentaje), na
   hc_yAxis(
     title = list(text = "Porcentaje"),
     labels = list(format = "{value}%"),
-    max = 120,
+    max = 125,
     plotLines = list(
       list(
         value = 100,      # Valor donde se ubica la línea
@@ -2120,7 +2120,7 @@ hchart(General_Cupos_MatPvez_Paz, "bar", hcaes(x = Programa, y = Porcentaje), na
   hc_yAxis(
     title = list(text = "Porcentaje"),
     labels = list(format = "{value}%"),
-    max = 120,
+    max = 125,
     plotLines = list(
       list(
         value = 100,      # Valor donde se ubica la línea
