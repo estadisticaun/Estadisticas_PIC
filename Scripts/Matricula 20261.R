@@ -157,23 +157,3 @@ Matricula_20261 <- Matricula_20261 %>% mutate(FACULTAD = ifelse(YEAR == 2018 &
                                                                     SNIES_PROGRA %in% c(69), "Derecho, ciencias políticas y sociales", FACULTAD),
                                                 FACULTAD= ifelse(YEAR == 2023 & SEDE_NOMBRE_MAT == "Palmira" & FACULTAD == "Ciencias agrarias",
                                                                  "Ciencias agropecuarias", FACULTAD))
-
-# # Serie General: Admitidos - Mat - Cupos - Graduados
-# 
-# Admitidos <- AdmitidosPre %>% filter(YEAR >= 2021) %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
-# Mat_Pvez <- MatriculadosPVPre %>% filter(YEAR >= 2021) %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
-# Graduados <-  GraduadosPre %>% filter(YEAR >= 2021) %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
-# Cupos <- Cupos_Pre %>% filter(YEAR >= 2021) %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
-# Poblaciones <- bind_rows(Cupos, Admitidos, Mat_Pvez, Graduados) %>% mutate(Variable = "POBLACION") %>% relocate(Variable, .before = YEAR)
-# 
-# # Gráfico Poblaciones
-# 
-# Poblaciones %>% 
-#   Plot.Series(categoria = "POBLACION",
-#               titulo = "Evolución total cupos, admitidos, matriculados primera vez y graduados en pregrado, periodo 2021-2025",
-#               labelY = "Total",
-#               colores = color(length(unique(Poblaciones$Clase))),
-#               # freqRelativa = TRUE,
-#               ylim = c(0,NaN),
-#               libreria = c("highcharter"),
-#               estilo = list(hc.Tema = 5))

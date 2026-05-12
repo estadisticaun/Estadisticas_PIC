@@ -20,6 +20,7 @@ editor: visual
 library(tidyverse)
 library(UnalData)
 library(UnalR)
+library(highcharter)
 
 # Funcón color
 
@@ -62,9 +63,14 @@ Graduados <- UnalData::Graduados %>% mutate(TOTAL = "Total")
 GraduadosPre <- Graduados %>% filter(TIPO_NIVEL == "Pregrado")
 GraduadosPre252 <- GraduadosPre %>% filter(YEAR == 2025, SEMESTRE == 2)
 
-# Cupos
+# Cupos Pregrado
 
 Cupos_Pre <- read_excel("Datos/Cupos_Pregrado.xlsx", guess_max = 5000)
+
+
+# Histórico Programas Pregrado
+
+Historico_Programas <- read_excel("Datos/Historico_Programas.xlsx", guess_max = 1000) %>% filter(TIPO_NIVEL_PRO == "Pregrado")
 
 # Bases de poblaciones
 
@@ -76,6 +82,88 @@ Graduados <-  GraduadosPre %>% filter(YEAR >= 2021) %>% summarise(Total = n(), .
 Cupos <- Cupos_Pre %>% filter(YEAR >= 2021) %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
 Poblaciones <- bind_rows(Cupos, Admitidos, Mat_Pvez, Graduados) %>% mutate(Variable = "POBLACION") %>% relocate(Variable, .before = YEAR)
 
+# Poblaciones Sedes Por Programas Cód SNIES
+
+Admitidos_Pro <- AdmitidosPre %>% left_join(Historico_Programas, by = "COD_PADRE") %>% filter(YEAR >= 2021) 
+Mat_Pvez_Pro <- MatriculadosPVPre %>% left_join(Historico_Programas, by = "COD_PADRE") %>% filter(YEAR >= 2021) 
+Graduados_Pro <- GraduadosPre %>% left_join(Historico_Programas, by = "COD_PADRE") %>% filter(YEAR >= 2021) 
+Cupos_Pro <- Cupos_Pre %>% filter(YEAR >= 2021)
+
+
+# Serie Adm - Mat p Vez - Grad - Cupos - SEDE BOGOTÁ
+
+Admitidos_Pro_Bog <- Admitidos_Pro %>% filter(SEDE_PROG == "Bogotá") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
+Mat_Pvez_Pro_Bog <- Mat_Pvez_Pro %>% filter(SEDE_PROG == "Bogotá") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
+Graduados_Pro_Bog <- Graduados_Pro %>% filter(SEDE_PROG == "Bogotá") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
+Cupos_Pro_Bog <- Cupos_Pro %>% filter(SEDE_NOMBRE == "Bogotá") %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
+Poblaciones_Bog <- bind_rows(Cupos_Pro_Bog, Admitidos_Pro_Bog, Mat_Pvez_Pro_Bog, Graduados_Pro_Bog) %>% mutate(Variable = "POBLACION") %>% relocate(Variable, .before = YEAR)
+
+
+
+# Serie Adm - Mat p Vez - Grad - Cupos - SEDE MEDELLÍN
+
+Admitidos_Pro_Med <- Admitidos_Pro %>% filter(SEDE_PROG == "Medellín") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
+Mat_Pvez_Pro_Med <- Mat_Pvez_Pro %>% filter(SEDE_PROG == "Medellín") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
+Graduados_Pro_Med <- Graduados_Pro %>% filter(SEDE_PROG == "Medellín") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
+Cupos_Pro_Med <- Cupos_Pro %>% filter(SEDE_NOMBRE == "Medellín") %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
+Poblaciones_Med <- bind_rows(Cupos_Pro_Med, Admitidos_Pro_Med, Mat_Pvez_Pro_Med, Graduados_Pro_Med) %>% mutate(Variable = "POBLACION") %>% relocate(Variable, .before = YEAR)
+
+
+# Serie Adm - Mat p Vez - Grad - Cupos - SEDE MANIZALES
+
+Admitidos_Pro_Man <- Admitidos_Pro %>% filter(SEDE_PROG == "Manizales") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
+Mat_Pvez_Pro_Man <- Mat_Pvez_Pro %>% filter(SEDE_PROG == "Manizales") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
+Graduados_Pro_Man <- Graduados_Pro %>% filter(SEDE_PROG == "Manizales") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
+Cupos_Pro_Man <- Cupos_Pro %>% filter(SEDE_NOMBRE == "Manizales") %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
+Poblaciones_Man <- bind_rows(Cupos_Pro_Man, Admitidos_Pro_Man, Mat_Pvez_Pro_Man, Graduados_Pro_Man) %>% mutate(Variable = "POBLACION") %>% relocate(Variable, .before = YEAR)
+
+# Serie Adm - Mat p Vez - Grad - Cupos - SEDE PALMIRA
+
+Admitidos_Pro_Pal <- Admitidos_Pro %>% filter(SEDE_PROG == "Palmira") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
+Mat_Pvez_Pro_Pal <- Mat_Pvez_Pro %>% filter(SEDE_PROG == "Palmira") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
+Graduados_Pro_Pal <- Graduados_Pro %>% filter(SEDE_PROG == "Palmira") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
+Cupos_Pro_Pal <- Cupos_Pro %>% filter(SEDE_NOMBRE == "Palmira") %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
+Poblaciones_Pal <- bind_rows(Cupos_Pro_Pal, Admitidos_Pro_Pal, Mat_Pvez_Pro_Pal, Graduados_Pro_Pal) %>% mutate(Variable = "POBLACION") %>% relocate(Variable, .before = YEAR)
+
+
+# Serie Adm - Mat p Vez - Grad - Cupos - SEDE DE LA PAZ
+
+Admitidos_Pro_Paz <- Admitidos_Pro %>% filter(SEDE_PROG == "De La Paz") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
+Mat_Pvez_Pro_Paz <- Mat_Pvez_Pro %>% filter(SEDE_PROG == "De La Paz") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
+Graduados_Pro_Paz <- Graduados_Pro %>% filter(SEDE_PROG == "De La Paz") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
+Cupos_Pro_Paz <- Cupos_Pro %>% filter(SEDE_NOMBRE == "De La Paz") %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
+Poblaciones_Paz <- bind_rows(Cupos_Pro_Paz, Admitidos_Pro_Paz, Mat_Pvez_Pro_Paz, Graduados_Pro_Paz) %>% mutate(Variable = "POBLACION") %>% relocate(Variable, .before = YEAR)
+
+
+# Acumulado Matriculados primera vez por programas - 2021-2026
+
+Acum_MatriculadosPVPre <-  MatriculadosPVPre %>% 
+  filter(YEAR >= 2021) %>% 
+  select(YEAR, SEMESTRE, MOD_ADM, TIPO_ADM, SEDE_NOMBRE_ADM, SEDE_NOMBRE_MAT, COD_PADRE) %>% 
+  summarise(Matriculados = n(), .by = c(COD_PADRE)) 
+
+# Acumulado Cupos por programas 2021-2026
+
+Acum_Cupos <- Cupos_Pre %>% 
+  filter(YEAR >= 2021) %>% 
+  summarise(Cupos = sum(CUPOS), .by = c(COD_PADRE, SEDE_NOMBRE, NOMBRE_PROGRAMA))
+
+
+# Consolidado Cupos y Mat Primera Vez por Programas
+
+General_Cupos_MatPvez <- Acum_Cupos %>% left_join(Acum_MatriculadosPVPre, by = c("COD_PADRE")) %>% 
+  rename(Sede = SEDE_NOMBRE,
+         Programa = NOMBRE_PROGRAMA) %>% 
+mutate(Ratio = Matriculados / Cupos)
+
+# Bases Sedes
+
+General_Cupos_MatPvez_Bog <- General_Cupos_MatPvez %>% filter(Sede == "Bogotá") %>%  mutate(Porcentaje = round(Ratio * 100, 1)) %>%  arrange(Porcentaje)
+General_Cupos_MatPvez_Med <- General_Cupos_MatPvez %>% filter(Sede == "Medellín") %>%  mutate(Porcentaje = round(Ratio * 100, 1)) %>%  arrange(Porcentaje)
+General_Cupos_MatPvez_Man <- General_Cupos_MatPvez %>% filter(Sede == "Manizales") %>%  mutate(Porcentaje = round(Ratio * 100, 1)) %>%  arrange(Porcentaje)
+General_Cupos_MatPvez_Pal <- General_Cupos_MatPvez %>% filter(Sede == "Palmira") %>%  mutate(Porcentaje = round(Ratio * 100, 1)) %>%  arrange(Porcentaje)
+General_Cupos_MatPvez_Paz <- General_Cupos_MatPvez %>% filter(Sede == "De La Paz") %>%  mutate(Porcentaje = round(Ratio * 100, 1)) %>%  arrange(Porcentaje)
+
 ```
 
 ## QR de la presentación
@@ -84,7 +172,7 @@ Poblaciones <- bind_rows(Cupos, Admitidos, Mat_Pvez, Graduados) %>% mutate(Varia
 
 ![](Imagenes/QRPresentacion.png){fig-align="center" height="480"}
 
-## ¿Objetivo de la Presentación? {.center}
+## Objetivo de la Presentación {.center}
 
 <br>
 
@@ -1724,6 +1812,7 @@ GraduadosPre252 %>%
 ## Consolidado: <br> Cupos, admitidos, matriculados primera vez y graduados en pregrado {.center}
 
 
+
 ## Tendencias Generales {.smaller}
 
 ::: panel-tabset
@@ -1735,7 +1824,7 @@ GraduadosPre252 %>%
 
 Poblaciones %>% 
   Plot.Series(categoria = "POBLACION",
-              titulo = "Evolución total cupos, admitidos, matriculados primera vez y graduados en pregrado, periodo 2021-2025",
+              titulo = "Evolución total cupos, admitidos, matriculados primera vez y graduados en pregrado, periodo 2021-2026",
               labelY = "Total",
               colores = color(length(unique(Poblaciones$Clase))),
               # freqRelativa = TRUE,
@@ -1744,7 +1833,321 @@ Poblaciones %>%
               estilo = list(hc.Tema = 5))
 
 ```
-<p style="font-size: 14px;"><b>Cupos:</b> El total de cupos en programas de pregrado de la Universidad se calcula a partir de los valores definidos, por periodo académico, a través de los Consejos de Facultad.</p>
+<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido, por periodo académico, en los Consejos de Facultad.</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados por primera vez en 2026-1 es de carácter preliminar. </p>
+
+### Bogotá
+
+```{r}
+#| echo: FALSE
+
+Poblaciones_Bog %>%
+  Plot.Series(categoria = "POBLACION",
+              titulo = "Evolución total cupos, admitidos, matriculados primera vez y graduados en pregrado SEDE BOGOTÁ, periodo 2021-2026",
+              labelY = "Total",
+              colores = color(length(unique(Poblaciones$Clase))),
+              # freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+```
+<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido, por periodo académico, en los Consejos de Facultad.</p>
+<p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes matriculados por primera vez en 2026-1 es de carácter preliminar. </p>
+<p style="font-size: 12px;"><b>Nota 2:</b> Incluye las cifras asociadas a las Sedes de Presencia Nacional SPN del Programa PEAMA.</p>
+
+### Medellín
+
+```{r}
+#| echo: FALSE
+
+Poblaciones_Med %>%
+  Plot.Series(categoria = "POBLACION",
+              titulo = "Evolución total cupos, admitidos, matriculados primera vez y graduados en pregrado SEDE MEDELLÍN, periodo 2021-2026",
+              labelY = "Total",
+              colores = color(length(unique(Poblaciones$Clase))),
+              # freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+
+```
+<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido, por periodo académico, en los Consejos de Facultad.</p>
+<p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes matriculados por primera vez en 2026-1 es de carácter preliminar. </p>
+<p style="font-size: 12px;"><b>Nota 2:</b> Incluye las cifras asociadas a las Sedes de Presencia Nacional SPN del Programa PEAMA.</p>
+
+
+### Manizales
+
+```{r}
+#| echo: FALSE
+
+Poblaciones_Man %>%
+  Plot.Series(categoria = "POBLACION",
+              titulo = "Evolución total cupos, admitidos, matriculados primera vez y graduados en pregrado SEDE MANIZALES, periodo 2021-2026",
+              labelY = "Total",
+              colores = color(length(unique(Poblaciones$Clase))),
+              # freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+
+```
+<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido, por periodo académico, en los Consejos de Facultad.</p>
+<p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes matriculados por primera vez en 2026-1 es de carácter preliminar. </p>
+<p style="font-size: 12px;"><b>Nota 2:</b> Incluye las cifras asociadas a las Sedes de Presencia Nacional SPN del Programa PEAMA.</p>
+
+
+### Palmira
+
+```{r}
+#| echo: FALSE
+
+Poblaciones_Pal %>%
+  Plot.Series(categoria = "POBLACION",
+              titulo = "Evolución total cupos, admitidos, matriculados primera vez y graduados en pregrado SEDE PALMIRA, periodo 2021-2026",
+              labelY = "Total",
+              colores = color(length(unique(Poblaciones$Clase))),
+              # freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+
+```
+<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido, por periodo académico, en los Consejos de Facultad.</p>
+<p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes matriculados por primera vez en 2026-1 es de carácter preliminar. </p>
+<p style="font-size: 12px;"><b>Nota 2:</b> Incluye las cifras asociadas a las Sedes de Presencia Nacional SPN del Programa PEAMA.</p>
+
+
+### La Paz
+
+```{r}
+#| echo: FALSE
+
+Poblaciones_Paz %>%
+  Plot.Series(categoria = "POBLACION",
+              titulo = "Evolución total cupos, admitidos, matriculados primera vez y graduados en pregrado SEDE LA PAZ, periodo 2021-2026",
+              labelY = "Total",
+              colores = color(length(unique(Poblaciones$Clase))),
+              # freqRelativa = TRUE,
+              ylim = c(0,NaN),
+              libreria = c("highcharter"),
+              estilo = list(hc.Tema = 5))
+```
+<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido, por periodo académico, en los Consejos de Facultad.</p>
+<p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes matriculados por primera vez en 2026-1 es de carácter preliminar. </p>
+<p style="font-size: 12px;"><b>Nota 2:</b> Incluye las cifras asociadas a las Sedes de Presencia Nacional SPN del Programa PEAMA.</p>
+
+:::
+
+## Consolidado: <br> Uso de Cupos Programas de Pregrado por Sedes de la Universidad, Periodo 2021-2026 {.center}
+
+## Consideraciones Metodológicas {.center}
+
+<br>
+
+El porcentaje de matriculados por primera vez vs los cupos ofertados en los programas académicos de pregrado de la UNAL corresponde al cociente entre el número de estudiantes matriculados por primera vez durante los últimos 5 años (2021-1 a 2026-1) y el total de cupos ofertados según las **Resoluciones de los Consejos de Facultad**, respectivas. <br>
+1. En este análisis, se incluyen los estudiantes matriculados por primera vez en el marco del programa PEAMA, en razón a que estos se encuentran adscritos a programas académicos de las sedes andinas (Bogotá, Medellín, Manizales o Palmira).
+
+
+## Uso Cupos Programas Pregrado {.smaller}
+
+::: panel-tabset
+
+### Bogotá
+
+```{r}
+#| echo: FALSE
+
+
+hchart(General_Cupos_MatPvez_Bog, "bar", hcaes(x = Programa, y = Porcentaje), name = "% Cupos utilizados") %>%
+  hc_title(text = "Porcentaje matriculados primera vez vs. cupos diponibles en Pregrado, SEDE BOGOTÁ. <br> (Periodo 2021-2026)") %>%
+  hc_xAxis(title = list(text = "Programa Académico")) %>%
+  hc_yAxis(
+    title = list(text = "Porcentaje"),
+    labels = list(format = "{value}%"),
+    max = 120,
+    plotLines = list(
+      list(
+        value = 100,      # Valor donde se ubica la línea
+        color = "red",    # Color rojo
+        dashStyle = "Dot", # Estilo punteado (puedes usar 'Dash' para guiones)
+        width = 2,        # Grosor de la línea
+        zIndex = 5,       # Para que aparezca sobre las barras
+        label = list(
+          text = "Límite Cupos (100%)",
+          align = "center",         # Centra el texto respecto a la línea
+          verticalAlign = "top",    # Lo coloca en la parte superior del gráfico
+          rotation = 0,             # Asegura que el texto esté horizontal
+          y = -10,                  # Desplazamiento vertical para que no toque el borde
+          style = list(color = "red", fontWeight = "bold"))))) %>%
+  hc_plotOptions(
+    bar = list(
+      dataLabels = list(enabled = TRUE, format = "{point.y}%")
+    )) %>%    
+  hc_chart(backgroundColor = "white") %>% 
+  hc_exporting(enabled = TRUE) %>% 
+  hc_colors("#2b908f")
+
+```
+<p style="font-size: 12px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+
+### Medellín
+
+```{r}
+#| echo: FALSE
+
+hchart(General_Cupos_MatPvez_Med, "bar", hcaes(x = Programa, y = Porcentaje), name = "% Cupos utilizados") %>%
+  hc_title(text = "Porcentaje matriculados primera vez vs. cupos diponibles en Pregrado, SEDE MEDELLÍN. <br> (Periodo 2021-2026)") %>%
+  hc_xAxis(title = list(text = "Programa Académico")) %>%
+  hc_yAxis(
+    title = list(text = "Porcentaje"),
+    labels = list(format = "{value}%"),
+    max = 120,
+    plotLines = list(
+      list(
+        value = 100,      # Valor donde se ubica la línea
+        color = "red",    # Color rojo
+        dashStyle = "Dot", # Estilo punteado (puedes usar 'Dash' para guiones)
+        width = 2,        # Grosor de la línea
+        zIndex = 5,       # Para que aparezca sobre las barras
+        label = list(
+          text = "Límite Cupos (100%)",
+          align = "center",         # Centra el texto respecto a la línea
+          verticalAlign = "top",    # Lo coloca en la parte superior del gráfico
+          rotation = 0,             # Asegura que el texto esté horizontal
+          y = -10,                  # Desplazamiento vertical para que no toque el borde
+          style = list(color = "red", fontWeight = "bold"))))) %>%
+  hc_plotOptions(
+    bar = list(
+      dataLabels = list(enabled = TRUE, format = "{point.y}%")
+    )
+  ) %>%
+   hc_chart(backgroundColor = "white") %>% 
+  # --- Activa el menú de hamburguesa con opciones por defecto ---
+  hc_exporting(enabled = TRUE) %>% 
+  hc_colors("#2b908f")
+
+```
+<p style="font-size: 12px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+
+### Manizales
+
+```{r}
+#| echo: FALSE
+
+hchart(General_Cupos_MatPvez_Man, "bar", hcaes(x = Programa, y = Porcentaje), name = "% Cupos utilizados") %>%
+  hc_title(text = "Porcentaje matriculados primera vez vs. cupos diponibles en Pregrado, SEDE MANIZALES. <br> (Periodo 2021-2026)") %>%
+  hc_xAxis(title = list(text = "Programa Académico")) %>%
+  hc_yAxis(
+    title = list(text = "Porcentaje"),
+    labels = list(format = "{value}%"),
+    max = 120,
+    plotLines = list(
+      list(
+        value = 100,      # Valor donde se ubica la línea
+        color = "red",    # Color rojo
+        dashStyle = "Dot", # Estilo punteado (puedes usar 'Dash' para guiones)
+        width = 2,        # Grosor de la línea
+        zIndex = 5,       # Para que aparezca sobre las barras
+        label = list(
+          text = "Límite Cupos (100%)",
+          align = "center",         # Centra el texto respecto a la línea
+          verticalAlign = "top",    # Lo coloca en la parte superior del gráfico
+          rotation = 0,             # Asegura que el texto esté horizontal
+          y = -10,                  # Desplazamiento vertical para que no toque el borde
+          style = list(color = "red", fontWeight = "bold"))))) %>%
+  hc_plotOptions(
+    bar = list(
+      dataLabels = list(enabled = TRUE, format = "{point.y}%")
+    )
+  ) %>%
+   hc_chart(backgroundColor = "white") %>% 
+  # --- Activa el menú de hamburguesa con opciones por defecto ---
+  hc_exporting(enabled = TRUE) %>% 
+  hc_colors("#2b908f")
+
+```
+<p style="font-size: 12px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+
+### Palmira
+
+```{r}
+#| echo: FALSE
+
+
+hchart(General_Cupos_MatPvez_Pal, "bar", hcaes(x = Programa, y = Porcentaje), name = "% Cupos utilizados") %>%
+  hc_title(text = "Porcentaje matriculados primera vez vs. cupos diponibles en Pregrado, SEDE PALMIRA. <br> (Periodo 2021-2026)") %>%
+  hc_xAxis(title = list(text = "Programa Académico")) %>%
+  hc_yAxis(
+    title = list(text = "Porcentaje"),
+    labels = list(format = "{value}%"),
+    max = 120,
+    plotLines = list(
+      list(
+        value = 100,      # Valor donde se ubica la línea
+        color = "red",    # Color rojo
+        dashStyle = "Dot", # Estilo punteado (puedes usar 'Dash' para guiones)
+        width = 2,        # Grosor de la línea
+        zIndex = 5,       # Para que aparezca sobre las barras
+        label = list(
+          text = "Límite Cupos (100%)",
+          align = "center",         # Centra el texto respecto a la línea
+          verticalAlign = "top",    # Lo coloca en la parte superior del gráfico
+          rotation = 0,             # Asegura que el texto esté horizontal
+          y = -10,                  # Desplazamiento vertical para que no toque el borde
+          style = list(color = "red", fontWeight = "bold"))))) %>%
+  hc_plotOptions(
+    bar = list(
+      dataLabels = list(enabled = TRUE, format = "{point.y}%")
+    )
+  ) %>%
+   hc_chart(backgroundColor = "white") %>% 
+  # --- Activa el menú de hamburguesa con opciones por defecto ---
+  hc_exporting(enabled = TRUE) %>% 
+  hc_colors("#2b908f")
+
+```
+<p style="font-size: 12px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+
+### La Paz
+
+```{r}
+#| echo: FALSE
+
+hchart(General_Cupos_MatPvez_Paz, "bar", hcaes(x = Programa, y = Porcentaje), name = "% Cupos utilizados") %>%
+  hc_title(text = "Porcentaje matriculados primera vez vs. cupos diponibles en Pregrado, SEDE LA PAZ. <br> (Periodo 2021-2026)") %>%
+  hc_xAxis(title = list(text = "Programa Académico")) %>%
+  hc_yAxis(
+    title = list(text = "Porcentaje"),
+    labels = list(format = "{value}%"),
+    max = 120,
+    plotLines = list(
+      list(
+        value = 100,      # Valor donde se ubica la línea
+        color = "red",    # Color rojo
+        dashStyle = "Dot", # Estilo punteado (puedes usar 'Dash' para guiones)
+        width = 2,        # Grosor de la línea
+        zIndex = 5,       # Para que aparezca sobre las barras
+        label = list(
+          text = "Límite Cupos (100%)",
+          align = "center",         # Centra el texto respecto a la línea
+          verticalAlign = "top",    # Lo coloca en la parte superior del gráfico
+          rotation = 0,             # Asegura que el texto esté horizontal
+          y = -10,                  # Desplazamiento vertical para que no toque el borde
+          style = list(color = "red", fontWeight = "bold"))))) %>%
+  hc_plotOptions(
+    bar = list(
+      dataLabels = list(enabled = TRUE, format = "{point.y}%")
+    )
+  ) %>%
+   hc_chart(backgroundColor = "white") %>% 
+  # --- Activa el menú de hamburguesa con opciones por defecto ---
+  hc_exporting(enabled = TRUE) %>% 
+  hc_colors("#2b908f")
+
+```
+<p style="font-size: 12px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+
 :::
 
 
