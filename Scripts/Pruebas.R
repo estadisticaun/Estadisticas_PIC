@@ -6,6 +6,7 @@ library(tidyverse)
 library(UnalData)
 library(UnalR)
 library(readxl)
+library(highcharter)
 
 
 # Serie General: Admitidos - Mat - Cupos - Graduados
@@ -344,45 +345,65 @@ hchart(General_Cupos_MatPvez_Paz, "bar", hcaes(x = Programa, y = Porcentaje), na
   hc_colors("#2b908f")
 
 
+# Requerimiento Rector
+
+source("scripts/Matricula 20261.R")
 
 
+# Matriculados por Nivel y Sedes
+
+Rector_Mat_Sedes <- Matricula_20261 %>% 
+  rename(Sede = SEDE_NOMBRE_MAT) %>% 
+  summarise(Total = n(), .by = c(Sede, TIPO_NIVEL)) %>% 
+  pivot_wider(names_from = TIPO_NIVEL, values_from = Total, values_fill = 0)
+
+View(Rector_Mat_Sedes)
+
+# Matriculados tipo de admisión pregrado
+
+Rector_Mat_Pre_Admi <- Matricula_20261 %>% 
+  filter(TIPO_NIVEL == "Pregrado") %>% 
+  summarise(Total = n(), .by = c(TIPO_ADM))
+
+View(Rector_Mat_Pre_Admi)
+
+# Matriculados por programas de Pregrado
+
+# Matriculados por Códigos
+  Pro_snies <- Matricula_20261 %>% 
+  filter(TIPO_NIVEL == "Pregrado") %>% 
+  rename(`Código SNIES` = SNIES_PROGRA,
+         Programa = PROGRAMA_2) %>% 
+  summarise(Total = n(), .by = c(`Código SNIES`, COD_PADRE, Programa)) 
+
+# Inclusión Sedes Programas
+
+Historico_Programas <- read_excel("Datos/Historico_Programas.xlsx", guess_max = 1000) %>% 
+  filter(TIPO_NIVEL_PRO == "Pregrado") %>% 
+  select(COD_PADRE, SNIES_SEDE_PROG, SEDE_PROG) %>% 
+  rename(`Sede del Programa` = SEDE_PROG)
 
 
+# Final Programas de Pregrado
+
+Rector_Pro_Pre <- Pro_snies %>% left_join(Historico_Programas, by = c("COD_PADRE")) %>% 
+  select(`Sede del Programa`, `Código SNIES`, `Sede del Programa`, Programa , Total) %>% 
+  arrange(Total)
+
+View(Rector_Pro_Pre)
+
+# Final Programas Postgrado
 
 
-library(highcharter)
-library(dplyr)
-
-# 1. Preparación de datos
-datos_univ <- data.frame(
-  Programa = c("Arquitectura", "Diseño Gráfico", "Artes Plásticas", "Diseño Industrial", 
-               "Cine y TV", "Música", "Música Instrumental", "Biología", 
-               "Estadística", "Farmacia", "Física"),
-  Ratio = c(1.014, 1.108, 0.966, 1.012, 0.986, 0.284, 0.482, 1.145, 1.03, 0.983, 0.910)
-) %>%
-  mutate(Porcentaje = round(Ratio * 100, 1)) %>%
-  arrange(Porcentaje)
-
-# 2. Generación del gráfico con menú por defecto
-hchart(datos_univ, "bar", hcaes(x = Programa, y = Porcentaje), name = "Cumplimiento") %>%
-  hc_title(text = "Porcentaje de Matriculados vs. Cupos") %>%
-  hc_xAxis(title = list(text = "Programa")) %>%
-  hc_yAxis(
-    title = list(text = "Porcentaje"),
-    labels = list(format = "{value}%"),
-    max = 120 
-  ) %>%
-  hc_plotOptions(
-    bar = list(
-      dataLabels = list(enabled = TRUE, format = "{point.y}%")
-    )
-  ) %>%
-  # --- Activa el menú de hamburguesa con opciones por defecto ---
-  hc_exporting(enabled = TRUE) %>% 
-  hc_colors("#2b908f")
+Rector_Pro_Pos <- Matricula_20261 %>% 
+  filter(TIPO_NIVEL == "Postgrado") %>% 
+  rename(`Código SNIES` = SNIES_PROGRA,
+         Nivel = NIVEL,
+         Programa = PROGRAMA,
+         Sede = SEDE_NOMBRE_MAT) %>% 
+  summarise(Total = n(), .by = c(Sede, Nivel, `Código SNIES`, Programa)) %>% 
+  arrange(Total)
 
 
-
-
-
+View(Rector_Pro_Pos)
 

@@ -21,6 +21,7 @@ library(tidyverse)
 library(UnalData)
 library(UnalR)
 library(highcharter)
+library(DT)
 
 # Funcón color
 
