@@ -666,18 +666,65 @@ Admitidos_Pre_262 <- Cupos_Pre |> filter(YEAR == 2026,	SEMESTRE == 2)
 ```{r}
 #| echo: FALSE
 
-Admitidos_Pre_262 %>% 
+datos <- Admitidos_Pre_262 %>% 
   filter(SEDE_NOMBRE == "Bogotá") %>% 
-  summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
-  slice_max(Total, n = 15) %>% 
-  Plot.Barras(
-    valores   = Total,
-    categoria = NOMBRE_PROGRAMA,
-    vertical = FALSE,
-    colores   = rep("#a8ddb5", 16),
-    titulo = "Top 15 programas de pregrado con mayor cantidad de admitidos en la Sede Bogotá, Periodo 2026-2",
-    labelY = "Total admitidos",
-    labelX    = "Programa Académico")
+  summarise(Admitidos = sum(ADMITIDOS), Cupos = sum(CUPOS),
+            .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
+  slice_max(Admitidos, n = 15) 
+
+  highchart() %>%
+   hc_xAxis(categories = datos$NOMBRE_PROGRAMA, 
+           title = list(text = "Programa Académico")) %>%
+  hc_yAxis(title = list(text = "Total admitidos")) %>%
+  
+  # Añadir la serie de barras horizontales (Total)
+  hc_add_series(
+    data = datos$Admitidos,
+    type = "bar",
+    name = "Admitidos",
+    color = "#a8ddb5",
+     dataLabels = list(
+      enabled = TRUE,
+      align = "left",        # Alinea el texto al extremo derecho (final) de la barra
+      inside = FALSE,         # Mantiene el texto justo por dentro de la barra
+      size = 30,
+      #color = "#FFFFFF",     # Color de fuente blanco para contrastar con la barra azul
+      style = list(fontWeight = "bold", fontSize = "13px"))) %>%
+  hc_add_series(
+    data = datos$Cupos,
+    type = "scatter",
+    name = "Cupos",
+    marker = list(
+      symbol = "diamond", # Define la forma (puedes cambiarlo a "circle", "square", etc.)
+      radius = 7,       # Tamaño del punto/estrella
+      fillColor = "#de2d26" # Color del punto/estrella
+    )
+  ) %>%
+     hc_chart(backgroundColor = "white") %>% 
+    hc_exporting(
+    enabled = TRUE,
+    buttons = list(
+      contextButton = list(
+        align = "right",      # Alineación horizontal a la derecha
+        verticalAlign = "top" # Alineación vertical arriba
+      )
+    )
+  ) %>%
+  # Opciones estéticas adicionales
+  hc_title(text = "Top 15 programas de pregrado con mayor cantidad de admitidos vs cupos disponibles en la Sede Bogotá, Periodo 2026-2") %>%
+  hc_legend(enabled = TRUE) %>%
+  hc_tooltip(shared = TRUE)
+
+
+  # Plot.Barras(
+  #   valores   = Total,
+  #   categoria = NOMBRE_PROGRAMA,
+  #   vertical = FALSE,
+  #   colores   = rep("#a8ddb5", 16),
+  #   titulo = "Top 15 programas de pregrado con mayor cantidad de admitidos en la Sede Bogotá, Periodo 2026-2",
+  #   labelY = "Total admitidos",
+  #   labelX    = "Programa Académico")
+
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
@@ -687,18 +734,69 @@ Admitidos_Pre_262 %>%
 ```{r}
 #| echo: FALSE
 
-Admitidos_Pre_262 %>% 
+datos <- Admitidos_Pre_262 %>% 
   filter(SEDE_NOMBRE == "Bogotá") %>% 
-  summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
-  slice_min(Total, n = 15) %>% 
-  Plot.Barras(
-    valores   = Total,
-    categoria = NOMBRE_PROGRAMA ,
-    vertical = FALSE,
-    colores   = rep("#fdbb84", 15),
-    titulo = "Top 15 programas de pregrado con menor cantidad de admitidos en la Sede Bogotá, Periodo 2026-2",
-    labelY = "Total admitidos",
-    labelX = "Programa Académico")
+  summarise(Admitidos = sum(ADMITIDOS), Cupos = sum(CUPOS),
+            .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
+  slice_min(Admitidos, n = 15) 
+
+# Inicio Gráfico
+
+highchart() %>%
+   hc_xAxis(categories = datos$NOMBRE_PROGRAMA, 
+           title = list(text = "Programa Académico")) %>%
+  hc_yAxis(title = list(text = "Total admitidos")) %>%
+  
+  # Añadir la serie de barras horizontales (Total)
+  hc_add_series(
+    data = datos$Admitidos,
+    type = "bar",
+    name = "Admitidos",
+    color = "#a8ddb5", # Puedes personalizar el color de la barra aquí
+    dataLabels = list(
+      enabled = TRUE,
+      align = "left",        # Alinea el texto al extremo derecho (final) de la barra
+      inside = FALSE,         # Mantiene el texto justo por dentro de la barra
+      size = 30,
+      #color = "#FFFFFF",     # Color de fuente blanco para contrastar con la barra azul
+      style = list(fontWeight = "bold", fontSize = "13px"))) %>%
+  
+  # Añadir la serie de puntos/estrellas sobrepuestos (Cupos)
+  hc_add_series(
+    data = datos$Cupos,
+    type = "scatter",
+    name = "Cupos",
+    marker = list(
+      symbol = "diamond", # Define la forma (puedes cambiarlo a "circle", "square", etc.)
+      radius = 7,       # Tamaño del punto/estrella
+      fillColor = "#de2d26" # Color del punto/estrella
+    )
+  ) %>%
+  hc_chart(backgroundColor = "white") %>% 
+  hc_exporting(
+    enabled = TRUE,
+    buttons = list(
+      contextButton = list(
+        align = "right",      # Alineación horizontal a la derecha
+        verticalAlign = "top" # Alineación vertical arriba
+      )
+    )
+  ) %>%
+  # Opciones estéticas adicionales
+  hc_title(text = "Top 15 programas de pregrado con menor cantidad de admitidos vs cupos disponibles en la Sede Bogotá, Periodo 2026-2") %>%
+  hc_legend(enabled = TRUE) %>%
+  hc_tooltip(shared = TRUE)
+
+
+
+  # Plot.Barras(
+  #   valores   = Total,
+  #   categoria = NOMBRE_PROGRAMA ,
+  #   vertical = FALSE,
+  #   colores   = rep("#fdbb84", 15),
+  #   titulo = "Top 15 programas de pregrado con menor cantidad de admitidos en la Sede Bogotá, Periodo 2026-2",
+  #   labelY = "Total admitidos",
+  #   labelX = "Programa Académico")
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
@@ -708,17 +806,72 @@ Admitidos_Pre_262 %>%
 ```{r}
 #| echo: FALSE
 
-Admitidos_Pre_262 %>% 
+
+datos <- Admitidos_Pre_262 %>% 
   filter(SEDE_NOMBRE == "Medellín") %>% 
-  summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
-  Plot.Barras(
-    valores   = Total,
-    categoria = NOMBRE_PROGRAMA ,
-    vertical = FALSE,
-    colores   = rep("#7fcdbb", 29),
-    titulo = "Total de admitidos a la Sede Medellín por programas académicos, Periodo 2026-2",
-    labelY = "Total admitidos",
-    labelX = "Programa Académico")
+  summarise(Admitidos = sum(ADMITIDOS), Cupos = sum(CUPOS),
+            .by = c(COD_PADRE, NOMBRE_PROGRAMA))
+
+highchart() %>%
+   hc_xAxis(categories = datos$NOMBRE_PROGRAMA, 
+           title = list(text = "Programa Académico")) %>%
+  hc_yAxis(title = list(text = "Total admitidos")) %>%
+  
+  # Añadir la serie de barras horizontales (Total)
+  hc_add_series(
+    data = datos$Admitidos,
+    type = "bar",
+    name = "Admitidos",
+    color = "#a8ddb5", # Puedes personalizar el color de la barra aquí
+    dataLabels = list(
+      enabled = TRUE,
+      align = "left",        # Alinea el texto al extremo derecho (final) de la barra
+      inside = FALSE,         # Mantiene el texto justo por dentro de la barra
+      size = 30,
+      #color = "#FFFFFF",     # Color de fuente blanco para contrastar con la barra azul
+      style = list(fontWeight = "bold", fontSize = "13px"))) %>%
+  
+  # Añadir la serie de puntos/estrellas sobrepuestos (Cupos)
+  hc_add_series(
+    data = datos$Cupos,
+    type = "scatter",
+    name = "Cupos",
+    marker = list(
+      symbol = "diamond", # Define la forma (puedes cambiarlo a "circle", "square", etc.)
+      radius = 7,       # Tamaño del punto/estrella
+      fillColor = "#de2d26" # Color del punto/estrella
+    )
+  ) %>%
+  hc_chart(backgroundColor = "white") %>% 
+  hc_exporting(
+    enabled = TRUE,
+    buttons = list(
+      contextButton = list(
+        align = "right",      # Alineación horizontal a la derecha
+        verticalAlign = "top" # Alineación vertical arriba
+      )
+    )
+  ) %>%
+  # Opciones estéticas adicionales
+  hc_title(text = "cantidad de admitidos vs cupos disponibles por programas académicos de pregrado en la Sede Medellín, Periodo 2026-2") %>%
+  hc_legend(enabled = TRUE) %>%
+  hc_tooltip(shared = TRUE)
+
+
+
+
+# 
+# Admitidos_Pre_262 %>% 
+#   filter(SEDE_NOMBRE == "Medellín") %>% 
+#   summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
+#   Plot.Barras(
+#     valores   = Total,
+#     categoria = NOMBRE_PROGRAMA ,
+#     vertical = FALSE,
+#     colores   = rep("#7fcdbb", 29),
+#     titulo = "Total de admitidos a la Sede Medellín por programas académicos, Periodo 2026-2",
+#     labelY = "Total admitidos",
+#     labelX = "Programa Académico")
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
@@ -728,17 +881,68 @@ Admitidos_Pre_262 %>%
 ```{r}
 #| echo: FALSE
 
-Admitidos_Pre_262 %>% 
+datos <- Admitidos_Pre_262 %>% 
   filter(SEDE_NOMBRE == "Manizales") %>% 
-  summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
-  Plot.Barras(
-    valores   = Total,
-    categoria = NOMBRE_PROGRAMA ,
-    vertical = FALSE,
-    colores   = rep("#7fcdbb", 14),
-    titulo = "Total de admitidos a la Sede Manizales por programas académicos, Periodo 2026-2",
-    labelY = "Total admitidos",
-    labelX = "Programa Académico")
+  summarise(Admitidos = sum(ADMITIDOS), Cupos = sum(CUPOS),
+            .by = c(COD_PADRE, NOMBRE_PROGRAMA))
+
+highchart() %>%
+   hc_xAxis(categories = datos$NOMBRE_PROGRAMA, 
+           title = list(text = "Programa Académico")) %>%
+  hc_yAxis(title = list(text = "Total admitidos")) %>%
+  
+  # Añadir la serie de barras horizontales (Total)
+  hc_add_series(
+    data = datos$Admitidos,
+    type = "bar",
+    name = "Admitidos",
+    color = "#a8ddb5", # Puedes personalizar el color de la barra aquí
+    dataLabels = list(
+      enabled = TRUE,
+      align = "left",        # Alinea el texto al extremo derecho (final) de la barra
+      inside = FALSE,         # Mantiene el texto justo por dentro de la barra
+      size = 30,
+      #color = "#FFFFFF",     # Color de fuente blanco para contrastar con la barra azul
+      style = list(fontWeight = "bold", fontSize = "13px"))) %>%
+  
+  # Añadir la serie de puntos/estrellas sobrepuestos (Cupos)
+  hc_add_series(
+    data = datos$Cupos,
+    type = "scatter",
+    name = "Cupos",
+    marker = list(
+      symbol = "diamond", # Define la forma (puedes cambiarlo a "circle", "square", etc.)
+      radius = 7,       # Tamaño del punto/estrella
+      fillColor = "#de2d26" # Color del punto/estrella
+    )
+  ) %>%
+  hc_chart(backgroundColor = "white") %>% 
+  hc_exporting(
+    enabled = TRUE,
+    buttons = list(
+      contextButton = list(
+        align = "right",      # Alineación horizontal a la derecha
+        verticalAlign = "top" # Alineación vertical arriba
+      )
+    )
+  ) %>%
+  # Opciones estéticas adicionales
+  hc_title(text = "cantidad de admitidos vs cupos disponibles por programas académicos de pregrado en la Sede Manizales, Periodo 2026-2") %>%
+  hc_legend(enabled = TRUE) %>%
+  hc_tooltip(shared = TRUE)
+
+
+# Admitidos_Pre_262 %>% 
+#   filter(SEDE_NOMBRE == "Manizales") %>% 
+#   summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
+#   Plot.Barras(
+#     valores   = Total,
+#     categoria = NOMBRE_PROGRAMA ,
+#     vertical = FALSE,
+#     colores   = rep("#7fcdbb", 14),
+#     titulo = "Total de admitidos a la Sede Manizales por programas académicos, Periodo 2026-2",
+#     labelY = "Total admitidos",
+#     labelX = "Programa Académico")
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
@@ -748,17 +952,69 @@ Admitidos_Pre_262 %>%
 ```{r}
 #| echo: FALSE
 
-Admitidos_Pre_262 %>% 
+
+datos <- Admitidos_Pre_262 %>% 
   filter(SEDE_NOMBRE == "Palmira") %>% 
-  summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
-  Plot.Barras(
-    valores   = Total,
-    categoria = NOMBRE_PROGRAMA ,
-    vertical = FALSE,
-    colores   = rep("#7fcdbb", 9),
-    titulo = "Total de admitidos a la Sede Palmira por programas académicos, Periodo 2026-2",
-    labelY = "Total admitidos",
-    labelX = "Programa Académico")
+  summarise(Admitidos = sum(ADMITIDOS), Cupos = sum(CUPOS),
+            .by = c(COD_PADRE, NOMBRE_PROGRAMA))
+
+highchart() %>%
+   hc_xAxis(categories = datos$NOMBRE_PROGRAMA, 
+           title = list(text = "Programa Académico")) %>%
+  hc_yAxis(title = list(text = "Total admitidos")) %>%
+  
+  # Añadir la serie de barras horizontales (Total)
+  hc_add_series(
+    data = datos$Admitidos,
+    type = "bar",
+    name = "Admitidos",
+    color = "#a8ddb5", # Puedes personalizar el color de la barra aquí
+    dataLabels = list(
+      enabled = TRUE,
+      align = "left",        # Alinea el texto al extremo derecho (final) de la barra
+      inside = FALSE,         # Mantiene el texto justo por dentro de la barra
+      size = 30,
+      #color = "#FFFFFF",     # Color de fuente blanco para contrastar con la barra azul
+      style = list(fontWeight = "bold", fontSize = "13px"))) %>%
+  
+  # Añadir la serie de puntos/estrellas sobrepuestos (Cupos)
+  hc_add_series(
+    data = datos$Cupos,
+    type = "scatter",
+    name = "Cupos",
+    marker = list(
+      symbol = "diamond", # Define la forma (puedes cambiarlo a "circle", "square", etc.)
+      radius = 7,       # Tamaño del punto/estrella
+      fillColor = "#de2d26" # Color del punto/estrella
+    )
+  ) %>%
+  hc_chart(backgroundColor = "white") %>% 
+  hc_exporting(
+    enabled = TRUE,
+    buttons = list(
+      contextButton = list(
+        align = "right",      # Alineación horizontal a la derecha
+        verticalAlign = "top" # Alineación vertical arriba
+      )
+    )
+  ) %>%
+  # Opciones estéticas adicionales
+  hc_title(text = "cantidad de admitidos vs cupos disponibles por programas académicos de pregrado en la Sede Palmira, Periodo 2026-2") %>%
+  hc_legend(enabled = TRUE) %>%
+  hc_tooltip(shared = TRUE)
+
+
+# Admitidos_Pre_262 %>% 
+#   filter(SEDE_NOMBRE == "Palmira") %>% 
+#   summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
+#   Plot.Barras(
+#     valores   = Total,
+#     categoria = NOMBRE_PROGRAMA ,
+#     vertical = FALSE,
+#     colores   = rep("#7fcdbb", 9),
+#     titulo = "Total de admitidos a la Sede Palmira por programas académicos, Periodo 2026-2",
+#     labelY = "Total admitidos",
+#     labelX = "Programa Académico")
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
 
@@ -767,17 +1023,69 @@ Admitidos_Pre_262 %>%
 ```{r}
 #| echo: FALSE
 
-Admitidos_Pre_262 %>% 
+datos <- Admitidos_Pre_262 %>% 
   filter(SEDE_NOMBRE == "De La Paz") %>% 
-  summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
-  Plot.Barras(
-    valores   = Total,
-    categoria = NOMBRE_PROGRAMA ,
-    vertical = FALSE,
-    colores   = rep("#7fcdbb", 6),
-    titulo = "Total de admitidos a la Sede La Paz por programas académicos, Periodo 2026-2",
-    labelY = "Total admitidos",
-    labelX = "Programa Académico")
+  summarise(Admitidos = sum(ADMITIDOS), Cupos = sum(CUPOS),
+            .by = c(COD_PADRE, NOMBRE_PROGRAMA))
+
+highchart() %>%
+   hc_xAxis(categories = datos$NOMBRE_PROGRAMA, 
+           title = list(text = "Programa Académico")) %>%
+  hc_yAxis(title = list(text = "Total admitidos")) %>%
+  
+  # Añadir la serie de barras horizontales (Total)
+  hc_add_series(
+    data = datos$Admitidos,
+    type = "bar",
+    name = "Admitidos",
+    color = "#a8ddb5", # Puedes personalizar el color de la barra aquí
+    dataLabels = list(
+      enabled = TRUE,
+      align = "left",        # Alinea el texto al extremo derecho (final) de la barra
+      inside = FALSE,         # Mantiene el texto justo por dentro de la barra
+      size = 30,
+      #color = "#FFFFFF",     # Color de fuente blanco para contrastar con la barra azul
+      style = list(fontWeight = "bold", fontSize = "13px"))) %>%
+  
+  # Añadir la serie de puntos/estrellas sobrepuestos (Cupos)
+  hc_add_series(
+    data = datos$Cupos,
+    type = "scatter",
+    name = "Cupos",
+    marker = list(
+      symbol = "diamond", # Define la forma (puedes cambiarlo a "circle", "square", etc.)
+      radius = 7,       # Tamaño del punto/estrella
+      fillColor = "#de2d26" # Color del punto/estrella
+    )
+  ) %>%
+  hc_chart(backgroundColor = "white") %>% 
+  hc_exporting(
+    enabled = TRUE,
+    buttons = list(
+      contextButton = list(
+        align = "right",      # Alineación horizontal a la derecha
+        verticalAlign = "top" # Alineación vertical arriba
+      )
+    )
+  ) %>%
+  # Opciones estéticas adicionales
+  hc_title(text = "cantidad de admitidos vs cupos disponibles por programas académicos de pregrado en la Sede La Paz, Periodo 2026-2") %>%
+  hc_legend(enabled = TRUE) %>%
+  hc_tooltip(shared = TRUE)
+
+# 
+# 
+# Admitidos_Pre_262 %>% 
+#   filter(SEDE_NOMBRE == "De La Paz") %>% 
+#   summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
+#   Plot.Barras(
+#     valores   = Total,
+#     categoria = NOMBRE_PROGRAMA ,
+#     vertical = FALSE,
+#     colores   = rep("#7fcdbb", 6),
+#     titulo = "Total de admitidos a la Sede La Paz por programas académicos, Periodo 2026-2",
+#     labelY = "Total admitidos",
+#     labelX = "Programa Académico")
 
 
 ```
