@@ -460,6 +460,7 @@ Agregar(TOTAL ~ YEAR + SEMESTRE,
                estilo = list(hc.Tema = 5))
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes admitidos en el periodo 2026-2 aún no se encuentra publicada y disponible en las estadísticas oficiales</p>
 
 
 ### Sedes
@@ -485,6 +486,7 @@ Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE,
               estilo = list(hc.Tema = 5))
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes admitidos en el periodo 2026-2 aún no se encuentra publicada y disponible en las estadísticas oficiales</p>
 
 ### Sexo
 
@@ -728,6 +730,8 @@ datos <- Admitidos_Pre_262 %>%
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes admitidos en el periodo 2026-2 aún no se encuentra publicada y disponible en las estadísticas oficiales</p>
+<p style="font-size: 12px;"><b>Nota 2:</b> El total de cupos por programa corresponde a los definidos, para el periodo 2026-2, por los Consejos de Facultad. No incluye los cupos PEAMA</p>
 
 ### < Bogotá
 
@@ -800,6 +804,8 @@ highchart() %>%
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes admitidos en el periodo 2026-2 aún no se encuentra publicada y disponible en las estadísticas oficiales</p>
+<p style="font-size: 12px;"><b>Nota 2:</b> El total de cupos por programa corresponde a los definidos, para el periodo 2026-2, por los Consejos de Facultad. No incluye los cupos PEAMA</p>
 
 ### Medellín
 
@@ -853,7 +859,7 @@ highchart() %>%
     )
   ) %>%
   # Opciones estéticas adicionales
-  hc_title(text = "cantidad de admitidos vs cupos disponibles por programas académicos de pregrado en la Sede Medellín, Periodo 2026-2") %>%
+  hc_title(text = "Total de admitidos vs cupos disponibles por programas académicos de pregrado en la Sede Medellín, Periodo 2026-2") %>%
   hc_legend(enabled = TRUE) %>%
   hc_tooltip(shared = TRUE)
 
@@ -875,6 +881,8 @@ highchart() %>%
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes admitidos en el periodo 2026-2 aún no se encuentra publicada y disponible en las estadísticas oficiales</p>
+<p style="font-size: 12px;"><b>Nota 2:</b> El total de cupos por programa corresponde a los definidos, para el periodo 2026-2, por los Consejos de Facultad. No incluye los cupos PEAMA</p>
 
 ### Manizales
 
@@ -927,7 +935,7 @@ highchart() %>%
     )
   ) %>%
   # Opciones estéticas adicionales
-  hc_title(text = "cantidad de admitidos vs cupos disponibles por programas académicos de pregrado en la Sede Manizales, Periodo 2026-2") %>%
+  hc_title(text = "Total de admitidos vs cupos disponibles por programas académicos de pregrado en la Sede Manizales, Periodo 2026-2") %>%
   hc_legend(enabled = TRUE) %>%
   hc_tooltip(shared = TRUE)
 
@@ -946,6 +954,8 @@ highchart() %>%
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes admitidos en el periodo 2026-2 aún no se encuentra publicada y disponible en las estadísticas oficiales</p>
+<p style="font-size: 12px;"><b>Nota 2:</b> El total de cupos por programa corresponde a los definidos, para el periodo 2026-2, por los Consejos de Facultad. No incluye los cupos PEAMA</p>
 
 ### Palmira
 
@@ -999,7 +1009,7 @@ highchart() %>%
     )
   ) %>%
   # Opciones estéticas adicionales
-  hc_title(text = "cantidad de admitidos vs cupos disponibles por programas académicos de pregrado en la Sede Palmira, Periodo 2026-2") %>%
+  hc_title(text = "Total de admitidos vs cupos disponibles por programas académicos de pregrado en la Sede Palmira, Periodo 2026-2") %>%
   hc_legend(enabled = TRUE) %>%
   hc_tooltip(shared = TRUE)
 
@@ -1017,6 +1027,8 @@ highchart() %>%
 #     labelX = "Programa Académico")
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes admitidos en el periodo 2026-2 aún no se encuentra publicada y disponible en las estadísticas oficiales</p>
+<p style="font-size: 12px;"><b>Nota 2:</b> El total de cupos por programa corresponde a los definidos, para el periodo 2026-2, por los Consejos de Facultad. No incluye los cupos PEAMA</p>
 
 ###  La Paz
 
@@ -1069,7 +1081,7 @@ highchart() %>%
     )
   ) %>%
   # Opciones estéticas adicionales
-  hc_title(text = "cantidad de admitidos vs cupos disponibles por programas académicos de pregrado en la Sede La Paz, Periodo 2026-2") %>%
+  hc_title(text = "Total de admitidos vs cupos disponibles por programas académicos de pregrado en la Sede La Paz, Periodo 2026-2") %>%
   hc_legend(enabled = TRUE) %>%
   hc_tooltip(shared = TRUE)
 
@@ -1090,6 +1102,8 @@ highchart() %>%
 
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
+<p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes admitidos en el periodo 2026-2 aún no se encuentra publicada y disponible en las estadísticas oficiales</p>
+<p style="font-size: 12px;"><b>Nota 2:</b> El total de cupos por programa corresponde a los definidos, para el periodo 2026-2, por los Consejos de Facultad. No incluye los cupos PEAMA</p>
 
 :::
 
@@ -2181,7 +2195,7 @@ Poblaciones %>%
               estilo = list(hc.Tema = 5))
 
 ```
-<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido, por periodo académico, en los Consejos de Facultad.</p>
+<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido en los Consejos de Facultad. No incluye los cupos PEAMA</p>
 <p style="font-size: 12px;"><b>Nota:</b> La información de estudiantes matriculados por primera vez en 2026-1 es de carácter preliminar. </p>
 
 ### Bogotá
@@ -2199,7 +2213,7 @@ Poblaciones_Bog %>%
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 ```
-<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido, por periodo académico, en los Consejos de Facultad.</p>
+<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido en los Consejos de Facultad. No incluye los cupos PEAMA</p>
 <p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes matriculados por primera vez en 2026-1 es de carácter preliminar. </p>
 <p style="font-size: 12px;"><b>Nota 2:</b> Incluye las cifras asociadas a las Sedes de Presencia Nacional SPN del Programa PEAMA.</p>
 
@@ -2219,7 +2233,7 @@ Poblaciones_Med %>%
               estilo = list(hc.Tema = 5))
 
 ```
-<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido, por periodo académico, en los Consejos de Facultad.</p>
+<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido en los Consejos de Facultad. No incluye los cupos PEAMA</p>
 <p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes matriculados por primera vez en 2026-1 es de carácter preliminar. </p>
 <p style="font-size: 12px;"><b>Nota 2:</b> Incluye las cifras asociadas a las Sedes de Presencia Nacional SPN del Programa PEAMA.</p>
 
@@ -2240,7 +2254,7 @@ Poblaciones_Man %>%
               estilo = list(hc.Tema = 5))
 
 ```
-<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido, por periodo académico, en los Consejos de Facultad.</p>
+<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido en los Consejos de Facultad. No incluye los cupos PEAMA</p>
 <p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes matriculados por primera vez en 2026-1 es de carácter preliminar. </p>
 <p style="font-size: 12px;"><b>Nota 2:</b> Incluye las cifras asociadas a las Sedes de Presencia Nacional SPN del Programa PEAMA.</p>
 
@@ -2261,7 +2275,7 @@ Poblaciones_Pal %>%
               estilo = list(hc.Tema = 5))
 
 ```
-<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido, por periodo académico, en los Consejos de Facultad.</p>
+<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido en los Consejos de Facultad. No incluye los cupos PEAMA</p>
 <p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes matriculados por primera vez en 2026-1 es de carácter preliminar. </p>
 <p style="font-size: 12px;"><b>Nota 2:</b> Incluye las cifras asociadas a las Sedes de Presencia Nacional SPN del Programa PEAMA.</p>
 
@@ -2281,7 +2295,7 @@ Poblaciones_Paz %>%
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
 ```
-<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido, por periodo académico, en los Consejos de Facultad.</p>
+<p style="font-size: 13px;"><b>Cupos:</b> Los cupos en pregrado de la Universidad se calculan a partir de lo definido en los Consejos de Facultad. No incluye los cupos PEAMA</p>
 <p style="font-size: 12px;"><b>Nota 1:</b> La información de estudiantes matriculados por primera vez en 2026-1 es de carácter preliminar. </p>
 <p style="font-size: 12px;"><b>Nota 2:</b> Incluye las cifras asociadas a las Sedes de Presencia Nacional SPN del Programa PEAMA.</p>
 
@@ -2337,7 +2351,8 @@ hchart(General_Cupos_MatPvez_Bog, "bar", hcaes(x = Programa, y = Porcentaje), na
   hc_colors("#2b908f")
 
 ```
-<p style="font-size: 12px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+<p style="font-size: 13px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+<p style="font-size: 13px;"><b>Cupos:</b> El total de cupos en pregrado de la Universidad se calcula a partir de lo definido en los Consejos de Facultad. No incluye los cupos PEAMA</p>
 
 ### Medellín
 
@@ -2376,7 +2391,8 @@ hchart(General_Cupos_MatPvez_Med, "bar", hcaes(x = Programa, y = Porcentaje), na
   hc_colors("#2b908f")
 
 ```
-<p style="font-size: 12px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+<p style="font-size: 13px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+<p style="font-size: 13px;"><b>Cupos:</b> El total de cupos en pregrado de la Universidad se calcula a partir de lo definido en los Consejos de Facultad. No incluye los cupos PEAMA</p>
 
 ### Manizales
 
@@ -2415,7 +2431,8 @@ hchart(General_Cupos_MatPvez_Man, "bar", hcaes(x = Programa, y = Porcentaje), na
   hc_colors("#2b908f")
 
 ```
-<p style="font-size: 12px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+<p style="font-size: 13px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+<p style="font-size: 13px;"><b>Cupos:</b> El total de cupos en pregrado de la Universidad se calcula a partir de lo definido en los Consejos de Facultad. No incluye los cupos PEAMA</p>
 
 ### Palmira
 
@@ -2455,7 +2472,8 @@ hchart(General_Cupos_MatPvez_Pal, "bar", hcaes(x = Programa, y = Porcentaje), na
   hc_colors("#2b908f")
 
 ```
-<p style="font-size: 12px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+<p style="font-size: 13px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+<p style="font-size: 13px;"><b>Cupos:</b> El total de cupos en pregrado de la Universidad se calcula a partir de lo definido en los Consejos de Facultad. No incluye los cupos PEAMA</p>
 
 ### La Paz
 
@@ -2494,7 +2512,8 @@ hchart(General_Cupos_MatPvez_Paz, "bar", hcaes(x = Programa, y = Porcentaje), na
   hc_colors("#2b908f")
 
 ```
-<p style="font-size: 12px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+<p style="font-size: 13px;">Fuente: Dirección Nacional de Planeación y Estadística - DNPE</p>
+<p style="font-size: 13px;"><b>Cupos:</b> El total de cupos en pregrado de la Universidad se calcula a partir de lo definido en los Consejos de Facultad. No incluye los cupos PEAMA</p>
 
 :::
 
