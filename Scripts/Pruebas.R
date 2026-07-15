@@ -345,7 +345,7 @@ hchart(General_Cupos_MatPvez_Paz, "bar", hcaes(x = Programa, y = Porcentaje), na
   hc_colors("#2b908f")
 
 
-# Requerimiento Rector
+# Requerimiento Rector -----
 
 source("scripts/Matricula 20261.R")
 
@@ -366,6 +366,7 @@ Rector_Mat_Pre_Admi <- Matricula_20261 %>%
   summarise(Total = n(), .by = c(TIPO_ADM))
 
 View(Rector_Mat_Pre_Admi)
+
 
 # Matriculados por programas de Pregrado
 
@@ -406,4 +407,18 @@ Rector_Pro_Pos <- Matricula_20261 %>%
 
 
 View(Rector_Pro_Pos)
+
+##############
+# Programas PAET
+##############
+
+
+Rector_Mat_Pre_Admi_PAET <- 
+  Rector_Mat_Pre_Admi <- Matricula_20261 %>% 
+  filter(TIPO_NIVEL == "Pregrado", TIPO_ADM == "PAET") %>% 
+  summarise(Total = n(), .by = c(PAET, SNIES_PROGRA, PROGRAMA)) %>% 
+  arrange(PAET)
+
+View(Rector_Mat_Pre_Admi_PAET)
+
 

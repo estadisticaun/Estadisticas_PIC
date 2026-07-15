@@ -1,6 +1,6 @@
 ---
 title: "Estadísticas de Pregrado"
-author: "<br>Rectoría<br>Vicerrectoría Académica<br>Universidad Nacional de Colombia<br>Mayo de 2025"
+author: "<br>Rectoría<br>Vicerrectoría Académica<br>Universidad Nacional de Colombia<br>Julio de 2025"
 format:
   onyxia-revealjs:
     output-file: index.html
@@ -22,6 +22,7 @@ library(UnalData)
 library(UnalR)
 library(highcharter)
 library(DT)
+library(readxl)
 
 # Funcón color
 
@@ -69,15 +70,51 @@ GraduadosPre252 <- GraduadosPre %>% filter(YEAR == 2025, SEMESTRE == 2)
 Cupos_Pre <- read_excel("Datos/Cupos_Pregrado.xlsx", guess_max = 5000)
 
 
+# Admitidos Pregrado 20262
+
+# General
+Admitidos_262 <- Cupos_Pre |> filter(YEAR == 2026,	SEMESTRE == 2) |> 
+  summarise(Total = sum(ADMITIDOS), .by = c(YEAR, SEMESTRE)) |> 
+  mutate(Clase = "Admitidos")
+
+# Bogotá
+Admitidos_262_Bog <- Cupos_Pre |> filter(YEAR == 2026,	SEMESTRE == 2, SEDE_NOMBRE == "Bogotá") |> 
+  summarise(Total = sum(ADMITIDOS), .by = c(YEAR, SEMESTRE)) |> 
+  mutate(Clase = "Admitidos")
+
+# Medellín
+Admitidos_262_Med <- Cupos_Pre |> filter(YEAR == 2026,	SEMESTRE == 2, SEDE_NOMBRE == "Medellín") |> 
+  summarise(Total = sum(ADMITIDOS), .by = c(YEAR, SEMESTRE)) |> 
+  mutate(Clase = "Admitidos")
+
+# Manizales
+Admitidos_262_Man <- Cupos_Pre |> filter(YEAR == 2026,	SEMESTRE == 2, SEDE_NOMBRE == "Manizales") |> 
+  summarise(Total = sum(ADMITIDOS), .by = c(YEAR, SEMESTRE)) |> 
+  mutate(Clase = "Admitidos")
+
+# Palmira
+
+Admitidos_262_Pal <- Cupos_Pre |> filter(YEAR == 2026,	SEMESTRE == 2, SEDE_NOMBRE == "Palmira") |> 
+  summarise(Total = sum(ADMITIDOS), .by = c(YEAR, SEMESTRE)) |> 
+  mutate(Clase = "Admitidos")
+
+
+# La Paz
+
+Admitidos_262_Paz <- Cupos_Pre |> filter(YEAR == 2026,	SEMESTRE == 2, SEDE_NOMBRE == "De La Paz") |> 
+  summarise(Total = sum(ADMITIDOS), .by = c(YEAR, SEMESTRE)) |> 
+  mutate(Clase = "Admitidos")
+
+
 # Histórico Programas Pregrado
 
-Historico_Programas <- read_excel("Datos/Historico_Programas.xlsx", guess_max = 1000) %>% filter(TIPO_NIVEL_PRO == "Pregrado")
+Historico_Programas <- read_excel("Datos/Historico_Programas_1.xlsx", guess_max = 1000) %>% filter(TIPO_NIVEL_PRO == "Pregrado")
 
 # Bases de poblaciones
 
 # Serie General: Admitidos - Mat - Cupos - Graduados
 
-Admitidos <- AdmitidosPre %>% filter(YEAR >= 2021) %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
+Admitidos <- AdmitidosPre %>% filter(YEAR >= 2021) %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total) |> bind_rows(Admitidos_262)
 Mat_Pvez <- MatriculadosPVPre %>% filter(YEAR >= 2021) %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
 Graduados <-  GraduadosPre %>% filter(YEAR >= 2021) %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
 Cupos <- Cupos_Pre %>% filter(YEAR >= 2021) %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
@@ -93,7 +130,7 @@ Cupos_Pro <- Cupos_Pre %>% filter(YEAR >= 2021)
 
 # Serie Adm - Mat p Vez - Grad - Cupos - SEDE BOGOTÁ
 
-Admitidos_Pro_Bog <- Admitidos_Pro %>% filter(SEDE_PROG == "Bogotá") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
+Admitidos_Pro_Bog <- Admitidos_Pro %>% filter(SEDE_PROG == "Bogotá") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total) |> bind_rows(Admitidos_262_Bog)
 Mat_Pvez_Pro_Bog <- Mat_Pvez_Pro %>% filter(SEDE_PROG == "Bogotá") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
 Graduados_Pro_Bog <- Graduados_Pro %>% filter(SEDE_PROG == "Bogotá") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
 Cupos_Pro_Bog <- Cupos_Pro %>% filter(SEDE_NOMBRE == "Bogotá") %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
@@ -103,7 +140,7 @@ Poblaciones_Bog <- bind_rows(Cupos_Pro_Bog, Admitidos_Pro_Bog, Mat_Pvez_Pro_Bog,
 
 # Serie Adm - Mat p Vez - Grad - Cupos - SEDE MEDELLÍN
 
-Admitidos_Pro_Med <- Admitidos_Pro %>% filter(SEDE_PROG == "Medellín") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
+Admitidos_Pro_Med <- Admitidos_Pro %>% filter(SEDE_PROG == "Medellín") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total) |>  bind_rows(Admitidos_262_Med)
 Mat_Pvez_Pro_Med <- Mat_Pvez_Pro %>% filter(SEDE_PROG == "Medellín") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
 Graduados_Pro_Med <- Graduados_Pro %>% filter(SEDE_PROG == "Medellín") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
 Cupos_Pro_Med <- Cupos_Pro %>% filter(SEDE_NOMBRE == "Medellín") %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
@@ -112,7 +149,7 @@ Poblaciones_Med <- bind_rows(Cupos_Pro_Med, Admitidos_Pro_Med, Mat_Pvez_Pro_Med,
 
 # Serie Adm - Mat p Vez - Grad - Cupos - SEDE MANIZALES
 
-Admitidos_Pro_Man <- Admitidos_Pro %>% filter(SEDE_PROG == "Manizales") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
+Admitidos_Pro_Man <- Admitidos_Pro %>% filter(SEDE_PROG == "Manizales") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total) |> bind_rows(Admitidos_262_Man)
 Mat_Pvez_Pro_Man <- Mat_Pvez_Pro %>% filter(SEDE_PROG == "Manizales") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
 Graduados_Pro_Man <- Graduados_Pro %>% filter(SEDE_PROG == "Manizales") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
 Cupos_Pro_Man <- Cupos_Pro %>% filter(SEDE_NOMBRE == "Manizales") %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
@@ -120,7 +157,7 @@ Poblaciones_Man <- bind_rows(Cupos_Pro_Man, Admitidos_Pro_Man, Mat_Pvez_Pro_Man,
 
 # Serie Adm - Mat p Vez - Grad - Cupos - SEDE PALMIRA
 
-Admitidos_Pro_Pal <- Admitidos_Pro %>% filter(SEDE_PROG == "Palmira") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
+Admitidos_Pro_Pal <- Admitidos_Pro %>% filter(SEDE_PROG == "Palmira") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)|> bind_rows(Admitidos_262_Pal)
 Mat_Pvez_Pro_Pal <- Mat_Pvez_Pro %>% filter(SEDE_PROG == "Palmira") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
 Graduados_Pro_Pal <- Graduados_Pro %>% filter(SEDE_PROG == "Palmira") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
 Cupos_Pro_Pal <- Cupos_Pro %>% filter(SEDE_NOMBRE == "Palmira") %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
@@ -129,7 +166,7 @@ Poblaciones_Pal <- bind_rows(Cupos_Pro_Pal, Admitidos_Pro_Pal, Mat_Pvez_Pro_Pal,
 
 # Serie Adm - Mat p Vez - Grad - Cupos - SEDE DE LA PAZ
 
-Admitidos_Pro_Paz <- Admitidos_Pro %>% filter(SEDE_PROG == "De La Paz") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)
+Admitidos_Pro_Paz <- Admitidos_Pro %>% filter(SEDE_PROG == "De La Paz") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Admitidos") %>% relocate(Clase, .before = Total)|>  bind_rows(Admitidos_262_Paz)
 Mat_Pvez_Pro_Paz <- Mat_Pvez_Pro %>% filter(SEDE_PROG == "De La Paz") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Matriculados primera vez") %>% relocate(Clase, .before = Total)
 Graduados_Pro_Paz <- Graduados_Pro %>% filter(SEDE_PROG == "De La Paz") %>% summarise(Total = n(), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Graduados") %>% relocate(Clase, .before = Total)
 Cupos_Pro_Paz <- Cupos_Pro %>% filter(SEDE_NOMBRE == "De La Paz") %>% summarise(Total = sum(CUPOS), .by = c(YEAR, SEMESTRE)) %>% mutate(Clase = "Cupos") %>% relocate(Clase, .before = Total)
@@ -167,11 +204,6 @@ General_Cupos_MatPvez_Paz <- General_Cupos_MatPvez %>% filter(Sede == "De La Paz
 
 ```
 
-## QR de la presentación
-
-<br>
-
-![](Imagenes/QRPresentacionNew.png){fig-align="center" height="480"}
 
 ## Objetivo de la Presentación {.center}
 
@@ -416,6 +448,9 @@ Agregar(TOTAL ~ YEAR + SEMESTRE,
                     intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AdmitidosPre,
                     textNA = "Sin información") %>% filter(Clase == "Total") %>%
+              bind_rows(Cupos_Pre |> filter(YEAR == 2026,	SEMESTRE == 2) |> 
+  summarise(Total = sum(ADMITIDOS), .by = c(YEAR, SEMESTRE)) |> 
+  mutate(Variable = "TOTAL", Clase = "Total")) |> 
               Plot.Series(categoria = "TOTAL",
                colores = c("#8cc63f"), # verde, Total
                titulo = "Evolución histórica total de admitidos a pregrado, periodo 2021-2026",
@@ -423,7 +458,6 @@ Agregar(TOTAL ~ YEAR + SEMESTRE,
                ylim = c(5000, 8000),
                libreria = c("highcharter"),
                estilo = list(hc.Tema = 5))
-
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
 
@@ -438,6 +472,10 @@ Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE,
                     intervalo = list(c(2021, 1), c(2026, 1)),
                     datos = AdmitidosPre,
                     textNA = "Sin información") %>%
+  bind_rows(Cupos_Pre |> filter(YEAR == 2026,	SEMESTRE == 2) |> 
+  summarise(Total = sum(ADMITIDOS), .by = c(YEAR, SEMESTRE, SEDE_NOMBRE)) |> 
+  rename(Clase = SEDE_NOMBRE) |> 
+  mutate(Variable = "INS_SEDE_NOMBRE")) |> 
            Plot.Series(categoria = "INS_SEDE_NOMBRE",
               titulo = "Evolución total de admitidos a pregrado por sedes de admisión, periodo 2021-2026",
               labelY = "Número de admitidos<br>",
@@ -445,8 +483,6 @@ Agregar(INS_SEDE_NOMBRE ~ YEAR + SEMESTRE,
               ylim = c(0,NaN),
               libreria = c("highcharter"),
               estilo = list(hc.Tema = 5))
-
-
 ```
 <p style="font-size: 12px;">Fuente: Estadísticas oficiales DNPE</p>
 
@@ -617,6 +653,9 @@ AdmitidosPre %>% filter(YEAR == 2026, SEMESTRE == 1) %>%
 
 :::
 
+```{r}
+Admitidos_Pre_262 <- Cupos_Pre |> filter(YEAR == 2026,	SEMESTRE == 2) 
+```
 
 ## Admitidos a Pregrado por Programas {.smaller}
 
@@ -627,16 +666,16 @@ AdmitidosPre %>% filter(YEAR == 2026, SEMESTRE == 1) %>%
 ```{r}
 #| echo: FALSE
 
-AdmitidosPre261 %>% 
-  filter(ADM_SEDE_NOMBRE == "Bogotá") %>% 
-  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+Admitidos_Pre_262 %>% 
+  filter(SEDE_NOMBRE == "Bogotá") %>% 
+  summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
   slice_max(Total, n = 15) %>% 
   Plot.Barras(
     valores   = Total,
-    categoria = PROGRAMA_2 ,
+    categoria = NOMBRE_PROGRAMA,
     vertical = FALSE,
-    colores   = rep("#a8ddb5", 15),
-    titulo = "Top 15 programas de pregrado con mayor cantidad de admitidos en la Sede Bogotá, Periodo 2026-1",
+    colores   = rep("#a8ddb5", 16),
+    titulo = "Top 15 programas de pregrado con mayor cantidad de admitidos en la Sede Bogotá, Periodo 2026-2",
     labelY = "Total admitidos",
     labelX    = "Programa Académico")
 
@@ -648,16 +687,16 @@ AdmitidosPre261 %>%
 ```{r}
 #| echo: FALSE
 
-AdmitidosPre261 %>% 
-  filter(ADM_SEDE_NOMBRE == "Bogotá") %>% 
-  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+Admitidos_Pre_262 %>% 
+  filter(SEDE_NOMBRE == "Bogotá") %>% 
+  summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
   slice_min(Total, n = 15) %>% 
   Plot.Barras(
     valores   = Total,
-    categoria = PROGRAMA_2 ,
+    categoria = NOMBRE_PROGRAMA ,
     vertical = FALSE,
-    colores   = rep("#fdbb84", 16),
-    titulo = "Top 15 programas de pregrado con menor cantidad de admitidos en la Sede Bogotá, Periodo 2026-1",
+    colores   = rep("#fdbb84", 15),
+    titulo = "Top 15 programas de pregrado con menor cantidad de admitidos en la Sede Bogotá, Periodo 2026-2",
     labelY = "Total admitidos",
     labelX = "Programa Académico")
 
@@ -669,15 +708,15 @@ AdmitidosPre261 %>%
 ```{r}
 #| echo: FALSE
 
-AdmitidosPre261 %>% 
-  filter(ADM_SEDE_NOMBRE == "Medellín") %>% 
-  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+Admitidos_Pre_262 %>% 
+  filter(SEDE_NOMBRE == "Medellín") %>% 
+  summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
   Plot.Barras(
     valores   = Total,
-    categoria = PROGRAMA_2 ,
+    categoria = NOMBRE_PROGRAMA ,
     vertical = FALSE,
-    colores   = rep("#7fcdbb", 28),
-    titulo = "Total de admitidos a la Sede Medellín por programas académicos, Periodo 2026-1",
+    colores   = rep("#7fcdbb", 29),
+    titulo = "Total de admitidos a la Sede Medellín por programas académicos, Periodo 2026-2",
     labelY = "Total admitidos",
     labelX = "Programa Académico")
 
@@ -689,15 +728,15 @@ AdmitidosPre261 %>%
 ```{r}
 #| echo: FALSE
 
-AdmitidosPre261 %>% 
-  filter(ADM_SEDE_NOMBRE == "Manizales") %>% 
-  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+Admitidos_Pre_262 %>% 
+  filter(SEDE_NOMBRE == "Manizales") %>% 
+  summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
   Plot.Barras(
     valores   = Total,
-    categoria = PROGRAMA_2 ,
+    categoria = NOMBRE_PROGRAMA ,
     vertical = FALSE,
-    colores   = rep("#7fcdbb", 15),
-    titulo = "Total de admitidos a la Sede Manizales por programas académicos, Periodo 2026-1",
+    colores   = rep("#7fcdbb", 14),
+    titulo = "Total de admitidos a la Sede Manizales por programas académicos, Periodo 2026-2",
     labelY = "Total admitidos",
     labelX = "Programa Académico")
 
@@ -709,15 +748,15 @@ AdmitidosPre261 %>%
 ```{r}
 #| echo: FALSE
 
-AdmitidosPre261 %>% 
-  filter(ADM_SEDE_NOMBRE == "Palmira") %>% 
-  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+Admitidos_Pre_262 %>% 
+  filter(SEDE_NOMBRE == "Palmira") %>% 
+  summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
   Plot.Barras(
     valores   = Total,
-    categoria = PROGRAMA_2 ,
+    categoria = NOMBRE_PROGRAMA ,
     vertical = FALSE,
-    colores   = rep("#7fcdbb", 7),
-    titulo = "Total de admitidos a la Sede Palmira por programas académicos, Periodo 2026-1",
+    colores   = rep("#7fcdbb", 9),
+    titulo = "Total de admitidos a la Sede Palmira por programas académicos, Periodo 2026-2",
     labelY = "Total admitidos",
     labelX = "Programa Académico")
 ```
@@ -728,15 +767,15 @@ AdmitidosPre261 %>%
 ```{r}
 #| echo: FALSE
 
-AdmitidosPre261 %>% 
-  filter(ADM_SEDE_NOMBRE == "De La Paz") %>% 
-  summarise(Total = n(), .by = c(COD_PADRE, PROGRAMA_2)) %>% 
+Admitidos_Pre_262 %>% 
+  filter(SEDE_NOMBRE == "De La Paz") %>% 
+  summarise(Total = sum(ADMITIDOS), .by = c(COD_PADRE, NOMBRE_PROGRAMA)) %>% 
   Plot.Barras(
     valores   = Total,
-    categoria = PROGRAMA_2 ,
+    categoria = NOMBRE_PROGRAMA ,
     vertical = FALSE,
     colores   = rep("#7fcdbb", 6),
-    titulo = "Total de admitidos a la Sede La Paz por programas académicos, Periodo 2026-1",
+    titulo = "Total de admitidos a la Sede La Paz por programas académicos, Periodo 2026-2",
     labelY = "Total admitidos",
     labelX = "Programa Académico")
 
